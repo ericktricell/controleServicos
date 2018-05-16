@@ -1,0 +1,10 @@
+com/tricell/model/Fornecedor_.java
+com/tricell/model/Empresa_.java
+com/tricell/model/Usuario_.java
+com/tricell/model/Despesas_.java
+com/tricell/model/Orcamento_.java
+com/tricell/model/ItensorcPK_.java
+com/tricell/model/Item_.java
+com/tricell/model/Itensorc_.java
+com/tricell/model/Centrocusto_.java
+com/tricell/model/Cliente_.java

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <h:form>
+        <div>
+            <div>
+                <label>Nome</label>
+                <p:inputText ></p:inputText>
+            </div>
+            <h:panelGroup styleClass="#{bean.opcoesAvancadas ? 
+                                        'show' : 'hide'}" id="painel">
+                <label>Dependentes</label>
+                <p:selectOneMenu >  
+                    <f:selectItem noSelectionOption="true" itemLabel= "Selecione..." />
+                    <f:selectItems />
+                </p:selectOneMenu>
+            </h:panelGroup>
+            <p:commandLink  value="Opções avançadas"
+                            action="#{bean.exibirOpcoesAvancadas()}" update="painel" />
+        </div> 
+        </h:form>
+    </ui:define>
+</ui:composition>
