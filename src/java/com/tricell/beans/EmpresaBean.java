@@ -7,7 +7,7 @@ package com.tricell.beans;
 
 import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Empresa;
-import com.tricell.repository.EmpresaJpaController;
+import com.tricell.repository.DaoGeneric;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -20,10 +20,11 @@ import javax.faces.bean.SessionScoped;
 public class EmpresaBean extends JPAUtil{
     
     private Empresa empresa = new Empresa();
-    private EmpresaJpaController controller = new EmpresaJpaController(getFactory());
+    private DaoGeneric<Empresa> con = new DaoGeneric<>(getFactory());
     
     public String salvar(){
-        controller.create(empresa);
+        con.salvar(empresa);
+        empresa = new Empresa();
         
         return "";
     }

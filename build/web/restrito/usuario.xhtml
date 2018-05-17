@@ -7,7 +7,63 @@
                 template="layout-base.xhtml">
 
     <ui:define name="conteudo">
-        cu
+        <p:layout>
+            <p:layoutUnit position="west" resizable="false" size="600">
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Nome:" for="nome" />
+                        <h:inputText id="nome" value="#{usuarioBean.usuario.nome}" title="Nome" required="true" requiredMessage="The Nome field is required."/>
+                        <h:outputLabel value="Login:" for="login" />
+                        <h:inputText id="login" value="#{usuarioBean.usuario.login}" title="Login" required="true" requiredMessage="The Login field is required."/>
+                        <h:outputLabel value="Senha:" for="senha" />
+                        <h:inputText id="senha" value="#{usuarioBean.usuario.senha}" title="Senha" required="true" requiredMessage="The Senha field is required."/>
+                        <h:outputLabel value="Telefone:" for="telefone" />
+                        <h:inputText id="telefone" value="#{usuarioBean.usuario.telefone}" title="Telefone" />
+                        <h:outputLabel value="Email:" for="email" />
+                        <h:inputText id="email" value="#{usuarioBean.usuario.email}" title="Email" />
+                    </h:panelGrid>
+                    <p:commandButton action="#{usuarioBean.salvar()}" value="Salvar"/>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                
+                    <h:form>
+                        <h:dataTable value="#{usuarioBean.lsUsuario}" var="item">
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Email"/>
+                                </f:facet>
+                                <h:outputText value="#{item.email}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Login"/>
+                                </f:facet>
+                                <h:outputText value="#{item.login}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nome}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Senha"/>
+                                </f:facet>
+                                <h:outputText value="#{item.senha}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Telefone"/>
+                                </f:facet>
+                                <h:outputText value="#{item.telefone}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+            </p:layoutUnit>
+        </p:layout>
     </ui:define>
-    
+
 </ui:composition>

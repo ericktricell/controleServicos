@@ -5,7 +5,9 @@
  */
 package com.tricell.beans;
 
+import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Usuario;
+import com.tricell.repository.DaoGeneric;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -17,11 +19,18 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class UsuarioBean {
+public class UsuarioBean extends JPAUtil{
     
     private Usuario usuario = new Usuario();
     private List<Usuario> lsUsuario = new ArrayList<>();
+    private DaoGeneric<Usuario> controller = new DaoGeneric<>(getFactory());
 
+    public String salvar(){
+        controller.salvar(usuario);
+        usuario = new Usuario();
+        return "usuario?faces-redirect=true";
+    }
+    
     public Usuario getUsuario() {
         return usuario;
     }
