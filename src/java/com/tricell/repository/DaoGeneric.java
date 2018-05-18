@@ -6,6 +6,8 @@
 package com.tricell.repository;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -41,5 +43,41 @@ public class DaoGeneric<E> implements Serializable{
                 em.close();
             }
         }
+    }
+    
+    public void merge(E entidade){
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            
+            em.merge(entidade);
+            em.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
+            em.getTransaction().rollback();
+        }finally{
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+    
+    public List<E> getListEntity(Class<E> entidade){
+        EntityManager em = null;
+        List<E> retorno = new ArrayList<>();
+        try{
+            em = getEntityManager();
+            em.getTransaction().begin();
+            
+            retorno = em.createQuery("from " + entidade.getName()).getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            if (em != null) {
+                em.close();
+            }
+        }
+        return retorno;
     }
 }

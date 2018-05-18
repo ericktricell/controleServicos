@@ -7,9 +7,45 @@
                 template="layout-base.xhtml">
 
     <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{usuarioBean.pegaUsuarios()}"/>
+        </f:metadata>
         <p:layout>
             <p:layoutUnit position="west" resizable="false" size="600">
+
                 <h:form>
+                    <p:dataTable id="eventsDT" value="#{usuarioBean.lsUsuario}" var="item" selectionMode="single" selection="#{usuarioBean.usuario}" rowKey="#{item.idUsuario}">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Buscar:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Entre com nome"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <f:ajax event="rowSelect" listener="#{usuarioBean.onRowSelected(item.idUsuario)}" execute="@form" render="@form"/>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nome"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nome}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>
+                            <h:outputText value="#{item.email}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Telefone"/>
+                            </f:facet>
+                            <h:outputText value="#{item.telefone}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <h:form id="detalhes">
                     <h:panelGrid columns="2">
                         <h:outputLabel value="Nome:" for="nome" />
                         <h:inputText id="nome" value="#{usuarioBean.usuario.nome}" title="Nome" required="true" requiredMessage="The Nome field is required."/>
@@ -24,44 +60,6 @@
                     </h:panelGrid>
                     <p:commandButton action="#{usuarioBean.salvar()}" value="Salvar"/>
                 </h:form>
-            </p:layoutUnit>
-            <p:layoutUnit position="center">
-                
-                    <h:form>
-                        <h:dataTable value="#{usuarioBean.lsUsuario}" var="item">
-                            
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Email"/>
-                                </f:facet>
-                                <h:outputText value="#{item.email}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Login"/>
-                                </f:facet>
-                                <h:outputText value="#{item.login}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Nome"/>
-                                </f:facet>
-                                <h:outputText value="#{item.nome}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Senha"/>
-                                </f:facet>
-                                <h:outputText value="#{item.senha}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Telefone"/>
-                                </f:facet>
-                                <h:outputText value="#{item.telefone}"/>
-                            </h:column>
-                        </h:dataTable>
-                    </h:form>
             </p:layoutUnit>
         </p:layout>
     </ui:define>
