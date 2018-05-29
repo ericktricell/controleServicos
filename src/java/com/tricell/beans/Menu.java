@@ -30,4 +30,8 @@ public class Menu implements Serializable{
     public void usuario() throws IOException{
         FacesContext.getCurrentInstance().getExternalContext().redirect("usuario.jsf");
     }
+    
+    public void itens() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("itens.jsf");
+    }
 }

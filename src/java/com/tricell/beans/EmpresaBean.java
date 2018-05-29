@@ -23,7 +23,7 @@ public class EmpresaBean extends JPAUtil{
     private DaoGeneric<Empresa> con = new DaoGeneric<>(getFactory());
     
     public String salvar(){
-        con.salvar(empresa);
+        con.save(empresa);
         empresa = new Empresa();
         
         return "";

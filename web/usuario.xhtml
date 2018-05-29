@@ -10,15 +10,20 @@
         <f:metadata>
             <f:viewAction action="#{usuarioBean.pegaUsuarios()}"/>
         </f:metadata>
+        
         <p:layout>
             <p:layoutUnit position="west" resizable="false" size="600">
 
-                <h:form>
-                    <p:dataTable id="eventsDT" value="#{usuarioBean.lsUsuario}" var="item" selectionMode="single" selection="#{usuarioBean.usuario}" rowKey="#{item.idUsuario}">
+                <h:form id="lista">
+                    <p:dataTable value="#{usuarioBean.lsUsuario}" var="item" selectionMode="single" selection="#{usuarioBean.usuario}" rowKey="#{item.idUsuario}"
+                                 emptyMessage="Não há usuários registrados" >
                         <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="Buscar:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Entre com nome"/>
+                                <p:inputText style="width:150px" placeholder="Entre com nome"/>
+                                <p:commandButton value="Novo">
+                                    <f:ajax listener="#{usuarioBean.novo()}" execute="@form" render="@form"/>
+                                </p:commandButton>
                             </p:outputPanel>
                         </f:facet>
                         <f:ajax event="rowSelect" listener="#{usuarioBean.onRowSelected(item.idUsuario)}" execute="@form" render="@form"/>
@@ -46,6 +51,7 @@
 
             <p:layoutUnit position="center">
                 <h:form id="detalhes">
+                    <p:growl id="growl" showDetail="true" sticky="true" />
                     <h:panelGrid columns="2">
                         <h:outputLabel value="Nome:" for="nome" />
                         <h:inputText id="nome" value="#{usuarioBean.usuario.nome}" title="Nome" required="true" requiredMessage="The Nome field is required."/>
@@ -58,7 +64,10 @@
                         <h:outputLabel value="Email:" for="email" />
                         <h:inputText id="email" value="#{usuarioBean.usuario.email}" title="Email" />
                     </h:panelGrid>
-                    <p:commandButton action="#{usuarioBean.salvar()}" value="Salvar"/>
+                    <p:commandButton action="#{usuarioBean.salvar}" value="Salvar" process="detalhes, @this"/>
+                    <p:commandButton value="Editar">
+                        <f:ajax listener="#{usuarioBean.editar()}"/>
+                    </p:commandButton>
                 </h:form>
             </p:layoutUnit>
         </p:layout>

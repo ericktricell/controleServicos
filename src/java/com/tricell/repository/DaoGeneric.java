@@ -27,7 +27,7 @@ public class DaoGeneric<E> implements Serializable{
         return emf.createEntityManager();
     }
     
-    public void salvar(E entidade){
+    public void save(E entidade){
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -45,13 +45,14 @@ public class DaoGeneric<E> implements Serializable{
         }
     }
     
-    public void merge(E entidade){
+    public void savemerge(E entidade){
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             
             em.merge(entidade);
+            
             em.getTransaction().commit();
         } catch (Exception e){
             e.printStackTrace();

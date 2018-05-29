@@ -3,10 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Eu/Documents/NetBeansProjects/controleServicos/src/java/com/tricell/repository/EmpresaJpaController.java</file>
-            <file>file:/C:/Users/Eu/Documents/NetBeansProjects/controleServicos/src/java/com/tricell/beans/UsuarioBean.java</file>
-            <file>file:/C:/Users/Eu/Documents/NetBeansProjects/controleServicos/web/restrito/usuario.xhtml</file>
-            <file>file:/C:/Users/Eu/Documents/NetBeansProjects/controleServicos/src/java/com/tricell/repository/UsuarioController.java</file>
+            <file>file:/C:/Users/Eu/Documents/NetBeansProjects/controleServicos/web/usuario.xhtml</file>
         </group>
     </open-files>
 </project-private>

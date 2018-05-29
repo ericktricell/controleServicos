@@ -8,31 +8,52 @@ package com.tricell.beans;
 import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Usuario;
 import com.tricell.repository.DaoGeneric;
+import com.tricell.repository.UsuarioJpaController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import org.primefaces.event.SelectEvent;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
  * @author Eu
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UsuarioBean extends JPAUtil {
 
     private Usuario usuario = new Usuario();
     private List<Usuario> lsUsuario = new ArrayList<>();
+    private List<Usuario> filterUsuario;
     private DaoGeneric<Usuario> controller = new DaoGeneric<>(getFactory());
+    private UsuarioJpaController controller1 = new UsuarioJpaController(getFactory());
 
     public void pegaUsuarios() {
         lsUsuario = controller.getListEntity(Usuario.class);
     }
 
     public String salvar() {
-        controller.merge(usuario);
+        controller.save(usuario);
+        usuario = new Usuario();
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Sucesso", "Usuário cadastrado"));
+        
+        return "usuario?faces-redirect=true";
+    }
+    
+    public String editar(){
+        controller1.edit(usuario);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Sucesso", "Usuário alterado"));
+        
+        return "usuario?faces-redirect=true";
+    }
+    
+    public String novo(){
+        
         usuario = new Usuario();
         return "";
     }
@@ -45,6 +66,14 @@ public class UsuarioBean extends JPAUtil {
             }
         }
         return "";
+    }
+
+    public List<Usuario> getFilterUsuario() {
+        return filterUsuario;
+    }
+
+    public void setFilterUsuario(List<Usuario> filterUsuario) {
+        this.filterUsuario = filterUsuario;
     }
 
     public Usuario getUsuario() {
