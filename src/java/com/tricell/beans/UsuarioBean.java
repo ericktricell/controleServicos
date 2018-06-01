@@ -36,7 +36,7 @@ public class UsuarioBean extends JPAUtil {
     }
 
     public String salvar() {
-        controller.save(usuario);
+        controller.savemerge(usuario);
         usuario = new Usuario();
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Sucesso", "Usuário cadastrado"));
@@ -44,18 +44,9 @@ public class UsuarioBean extends JPAUtil {
         return "usuario?faces-redirect=true";
     }
     
-    public String editar(){
-        controller1.edit(usuario);
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Sucesso", "Usuário alterado"));
-        
-        return "usuario?faces-redirect=true";
-    }
-    
     public String novo(){
-        
         usuario = new Usuario();
-        return "";
+        return "usuario?faces-redirect=true";
     }
 
     public String onRowSelected(Long id) {

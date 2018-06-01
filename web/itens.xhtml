@@ -7,10 +7,14 @@
                 template="layout-base.xhtml">
 
     <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{itemBean.pegaItens()}"/>
+        </f:metadata>
         <p:layout>
             <p:layoutUnit position="west" resizable="false" size="600">
                     <h:form>
-                        <p:dataTable value="#{itemBean.lsItens}" var="item" selectionMode="single">
+                        <p:dataTable value="#{itemBean.lsItens}" var="item" selectionMode="single" selection="#{itemBean.item}" rowKey="#{item.idItem}"
+                                     emptyMessage="Não há itens registrados">
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Discriminacao"/>
@@ -40,10 +44,8 @@
             </p:layoutUnit>
             
             <p:layoutUnit position="center">
-                    <h:form>
+                <h:form id="detalhes">
                         <p:panelGrid columns="2">
-                            <p:outputLabel value="IdItem:" for="idItem" />
-                            <p:inputText id="idItem" value="#{itemBean.item.idItem}" title="IdItem" required="true" requiredMessage="The IdItem field is required."/>
                             <p:outputLabel value="Discriminacao:" for="discriminacao" />
                             <p:inputText id="discriminacao" value="#{itemBean.item.discriminacao}" title="Discriminacao" required="true" requiredMessage="The Discriminacao field is required."/>
                             <p:outputLabel value="Tipo:" for="tipo" />
@@ -53,6 +55,7 @@
                             <p:outputLabel value="VlrUnit:" for="vlrUnit" />
                             <p:inputText id="vlrUnit" value="#{itemBean.item.vlrUnit}" title="VlrUnit" required="true" requiredMessage="The VlrUnit field is required."/>
                         </p:panelGrid>
+                        <p:commandButton value="Salvar" action="#{itemBean.salvar()}" process="detalhes, @this"/>
                     </h:form>
             </p:layoutUnit>
         </p:layout>

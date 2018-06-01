@@ -10,7 +10,7 @@
         <f:metadata>
             <f:viewAction action="#{usuarioBean.pegaUsuarios()}"/>
         </f:metadata>
-        
+
         <p:layout>
             <p:layoutUnit position="west" resizable="false" size="600">
 
@@ -65,7 +65,6 @@
                         <h:inputText id="email" value="#{usuarioBean.usuario.email}" title="Email" />
                     </h:panelGrid>
                     <p:commandButton action="#{usuarioBean.salvar}" value="Salvar" process="detalhes, @this"/>
-                    <p:commandButton action="#{usuarioBean.editar}" value="Editar" process="detalhes, @this" immediate="true"/>
                 </h:form>
             </p:layoutUnit>
         </p:layout>

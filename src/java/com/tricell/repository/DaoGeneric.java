@@ -45,19 +45,23 @@ public class DaoGeneric<E> implements Serializable{
         }
     }
     
-    public void savemerge(E entidade){
+    
+    public E savemerge(E entidade){
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             
-            em.merge(entidade);
+            entidade = (E) em.merge(entidade);
             
             em.getTransaction().commit();
+            return entidade;
         } catch (Exception e){
             e.printStackTrace();
             em.getTransaction().rollback();
+            return entidade;
         }finally{
+            em.flush();
             if (em != null) {
                 em.close();
             }
