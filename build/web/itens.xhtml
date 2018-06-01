@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{itemBean.pegaItens()}"/>
+        </f:metadata>
+        <p:layout>
+            <p:layoutUnit position="west" resizable="false" size="600">
+                    <h:form>
+                        <p:dataTable value="#{itemBean.lsItens}" var="item" selectionMode="single" selection="#{itemBean.item}" rowKey="#{item.idItem}"
+                                     emptyMessage="Não há itens registrados">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Discriminacao"/>
+                                </f:facet>
+                                <h:outputText value="#{item.discriminacao}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tipo"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipo}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Un"/>
+                                </f:facet>
+                                <h:outputText value="#{item.un}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="VlrUnit"/>
+                                </f:facet>
+                                <h:outputText value="#{item.vlrUnit}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="center">
+                <h:form id="detalhes">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Discriminacao:" for="discriminacao" />
+                            <p:inputText id="discriminacao" value="#{itemBean.item.discriminacao}" title="Discriminacao" required="true" requiredMessage="The Discriminacao field is required."/>
+                            <p:outputLabel value="Tipo:" for="tipo" />
+                            <p:inputText id="tipo" value="#{itemBean.item.tipo}" title="Tipo" required="true" requiredMessage="The Tipo field is required."/>
+                            <p:outputLabel value="Un:" for="un" />
+                            <p:inputText id="un" value="#{itemBean.item.un}" title="Un" required="true" requiredMessage="The Un field is required."/>
+                            <p:outputLabel value="VlrUnit:" for="vlrUnit" />
+                            <p:inputText id="vlrUnit" value="#{itemBean.item.vlrUnit}" title="VlrUnit" required="true" requiredMessage="The VlrUnit field is required."/>
+                        </p:panelGrid>
+                        <p:commandButton value="Salvar" action="#{itemBean.salvar()}" process="detalhes, @this"/>
+                    </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </ui:define>
+</ui:composition>
