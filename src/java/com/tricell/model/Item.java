@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")
     , @NamedQuery(name = "Item.findByIdItem", query = "SELECT i FROM Item i WHERE i.idItem = :idItem")
-    , @NamedQuery(name = "Item.findByDiscriminacao", query = "SELECT i FROM Item i WHERE i.discriminacao = :discriminacao")
+    , @NamedQuery(name = "Item.findByDiscriminacao", query = "SELECT i FROM Item i WHERE i.discriminacao LIKE :discriminacao")
     , @NamedQuery(name = "Item.findByTipo", query = "SELECT i FROM Item i WHERE i.tipo = :tipo")
     , @NamedQuery(name = "Item.findByUn", query = "SELECT i FROM Item i WHERE i.un = :un")
     , @NamedQuery(name = "Item.findByVlrUnit", query = "SELECT i FROM Item i WHERE i.vlrUnit = :vlrUnit")})
@@ -63,7 +63,7 @@ public class Item implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "vlrUnit")
-    private double vlrUnit;
+    private Double vlrUnit;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
     private List<Itensorc> itensorcList;
 
@@ -114,11 +114,11 @@ public class Item implements Serializable {
         this.un = un;
     }
 
-    public double getVlrUnit() {
+    public Double getVlrUnit() {
         return vlrUnit;
     }
 
-    public void setVlrUnit(double vlrUnit) {
+    public void setVlrUnit(Double vlrUnit) {
         this.vlrUnit = vlrUnit;
     }
 

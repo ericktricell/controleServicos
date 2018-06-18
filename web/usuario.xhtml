@@ -8,7 +8,7 @@
 
     <ui:define name="conteudo">
         <f:metadata>
-            <f:viewAction action="#{usuarioBean.pegaUsuarios()}"/>
+            <f:viewAction action="#{usuarioBean.getList()}"/>
         </f:metadata>
 
         <p:layout>
@@ -21,12 +21,10 @@
                             <p:outputPanel>
                                 <h:outputText value="Buscar:" />
                                 <p:inputText style="width:150px" placeholder="Entre com nome"/>
-                                <p:commandButton value="Novo">
-                                    <f:ajax listener="#{usuarioBean.novo()}" execute="@form" render="@form"/>
-                                </p:commandButton>
+                                <p:commandButton value="Novo" action="#{usuarioBean.novo()}" update="detalhes"/>
                             </p:outputPanel>
                         </f:facet>
-                        <f:ajax event="rowSelect" listener="#{usuarioBean.onRowSelected(item.idUsuario)}" execute="@form" render="@form"/>
+                        <f:ajax event="rowSelect" listener="#{usuarioBean.onRowSelected(item.idUsuario)}" execute="@form" render="detalhes"/>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Nome"/>
@@ -50,21 +48,21 @@
             </p:layoutUnit>
 
             <p:layoutUnit position="center">
-                <h:form id="detalhes">
+                <h:form id="detalhes" styleClass="semBorda">
                     <p:growl id="growl" showDetail="true" sticky="true" />
-                    <h:panelGrid columns="2">
-                        <h:outputLabel value="Nome:" for="nome" />
-                        <h:inputText id="nome" value="#{usuarioBean.usuario.nome}" title="Nome" required="true" requiredMessage="The Nome field is required."/>
-                        <h:outputLabel value="Login:" for="login" />
-                        <h:inputText id="login" value="#{usuarioBean.usuario.login}" title="Login" required="true" requiredMessage="The Login field is required."/>
-                        <h:outputLabel value="Senha:" for="senha" />
-                        <h:inputText id="senha" value="#{usuarioBean.usuario.senha}" title="Senha" required="true" requiredMessage="The Senha field is required."/>
-                        <h:outputLabel value="Telefone:" for="telefone" />
-                        <h:inputText id="telefone" value="#{usuarioBean.usuario.telefone}" title="Telefone" />
-                        <h:outputLabel value="Email:" for="email" />
-                        <h:inputText id="email" value="#{usuarioBean.usuario.email}" title="Email" />
-                    </h:panelGrid>
-                    <p:commandButton action="#{usuarioBean.salvar}" value="Salvar" process="detalhes, @this"/>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Nome:" for="nome" />
+                        <p:inputText id="nome" value="#{usuarioBean.usuario.nome}" title="Nome" required="true" requiredMessage="The Nome field is required."/>
+                        <p:outputLabel value="Login:" for="login" />
+                        <p:inputText id="login" value="#{usuarioBean.usuario.login}" title="Login" required="true" requiredMessage="The Login field is required."/>
+                        <p:outputLabel value="Senha:" for="senha" />
+                        <p:password id="senha" value="#{usuarioBean.usuario.senha}" title="Senha" required="true" requiredMessage="The Senha field is required."/>
+                        <p:outputLabel value="Telefone:" for="telefone" />
+                        <p:inputText id="telefone" value="#{usuarioBean.usuario.telefone}" title="Telefone" />
+                        <p:outputLabel value="Email:" for="email" />
+                        <p:inputText id="email" value="#{usuarioBean.usuario.email}" title="Email" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioBean.save}" value="Salvar" update="lista"/>
                 </h:form>
             </p:layoutUnit>
         </p:layout>

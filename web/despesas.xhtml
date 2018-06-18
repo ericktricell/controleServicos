@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{despesaBean.getList()}"/>
+        </f:metadata>
+        <p:layout>
+            <p:layoutUnit position="west" resizable="false" size="650">
+                <h:form id="lista">
+                    <p:dataTable value="#{despesaBean.lsDespesas}" var="item" selectionMode="single" selection="#{despesaBean.despesas}" rowKey="#{item.idDespesa}"
+                                 emptyMessage="Não foram encontradas despesas no momento">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Buscar:" />
+                                <p:inputText style="width:150px" placeholder="Entre com nome"/>
+                                <p:commandButton value="Novo" update="detalhes">
+                                    <f:ajax listener="#{despesaBean.novo()}" execute="@form" render="@form"/>
+                                </p:commandButton>
+                            </p:outputPanel>
+                        </f:facet>
+                        <f:ajax event="rowSelect" listener="#{despesaBean.onRowSelected(item.idDespesa)}" execute="@form" render="detalhes"/>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descrição"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descricao}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Valor"/>
+                            </f:facet>
+                            <h:outputText value="R$ #{item.valor}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Vencimento"/>
+                            </f:facet>
+                            <h:outputText value="#{item.vencimento}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data Pag."/>
+                            </f:facet>
+                            <h:outputText value="#{item.dataPagamento}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Pago"/>
+                            </f:facet>
+                            <h:selectBooleanCheckbox readonly="true" value="#{item.pago}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <h:form id="detalhes">
+                    <p:panelGrid columns="2" styleClass="semBorda">
+                        <p:outputLabel value="Valor:" for="valor" />
+                        <p:inputText id="valor" class="js-moeda" value="#{despesaBean.despesas.valor}" title="Valor" required="true" requiredMessage="The Valor field is required."/>
+                        <p:outputLabel value="Vencimento:" for="vencimento" />
+                        <p:calendar id="vencimento" value="#{despesaBean.despesas.vencimento}" showOn="button"/>
+                        <p:outputLabel value="Descricao:" for="descricao" />
+                        <p:inputText id="descricao" value="#{despesaBean.despesas.descricao}" title="Descricao" required="true" requiredMessage="The Descricao field is required."/>
+                        <p:outputLabel value="Pago:" for="pago" />
+                        <p:selectBooleanCheckbox id="pago" value="#{despesaBean.despesas.pago}"/>
+                        <p:outputLabel value="DataPagamento:" for="dataPagamento" />
+                        <p:calendar id="dataPagamento" value="#{despesaBean.despesas.dataPagamento}" showOn="button" />
+                    </p:panelGrid>
+                    <p:commandButton value="Salvar" action="#{despesaBean.save()}" update="lista"/>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+
+    </ui:define>
+</ui:composition>

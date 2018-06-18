@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 /**
  *
@@ -45,7 +46,6 @@ public class DaoGeneric<E> implements Serializable{
         }
     }
     
-    
     public E savemerge(E entidade){
         EntityManager em = null;
         try {
@@ -61,11 +61,50 @@ public class DaoGeneric<E> implements Serializable{
             em.getTransaction().rollback();
             return entidade;
         }finally{
-            em.flush();
+            
             if (em != null) {
                 em.close();
             }
         }
+    }
+    
+    public E getEntidade(Class<E> entidade){
+        EntityManager em = null;
+        E retorno = null;
+        
+        try{
+            em = getEntityManager();
+            em.getTransaction().begin();
+            
+            retorno = (E) em.createQuery("from " + entidade.getName()).getSingleResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            if (em != null) {
+                em.close();
+            }
+        }
+        
+        return retorno;
+    }
+    
+    public List<E> filter(String txt, String name, String prm){
+        EntityManager em = null;
+        List<E> retorno = new ArrayList<>();
+        try{
+            em = getEntityManager();
+            em.getTransaction().begin();
+            Query q = em.createNamedQuery(name);
+            q.setParameter(prm, "%" +txt + "%");
+            retorno = q.getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            if (em != null) {
+                em.close();
+            }
+        }
+        return retorno;
     }
     
     public List<E> getListEntity(Class<E> entidade){

@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -46,8 +48,7 @@ public class Fornecedor implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idFornecedor")
     private Long idFornecedor;
     @Basic(optional = false)
@@ -74,7 +75,7 @@ public class Fornecedor implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "num")
-    private int num;
+    private Integer num;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
@@ -172,11 +173,11 @@ public class Fornecedor implements Serializable {
         this.site = site;
     }
 
-    public int getNum() {
+    public Integer getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(Integer num) {
         this.num = num;
     }
 

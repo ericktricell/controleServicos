@@ -8,55 +8,67 @@
 
     <ui:define name="conteudo">
         <f:metadata>
-            <f:viewAction action="#{itemBean.pegaItens()}"/>
+            <f:viewAction action="#{itemBean.getList()}"/>
         </f:metadata>
         <p:layout>
-            <p:layoutUnit position="west" resizable="false" size="600">
-                    <h:form>
-                        <p:dataTable value="#{itemBean.lsItens}" var="item" selectionMode="single" selection="#{itemBean.item}" rowKey="#{item.idItem}"
-                                     emptyMessage="Não há itens registrados">
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Discriminacao"/>
-                                </f:facet>
-                                <h:outputText value="#{item.discriminacao}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Tipo"/>
-                                </f:facet>
-                                <h:outputText value="#{item.tipo}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Un"/>
-                                </f:facet>
-                                <h:outputText value="#{item.un}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="VlrUnit"/>
-                                </f:facet>
-                                <h:outputText value="#{item.vlrUnit}"/>
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
+            <p:layoutUnit position="west" resizable="false" size="650">
+                <h:form id="lista">
+                        <p:dataTable value="#{itemBean.lsItens}" var="item" selectionMode="single"
+                                 selection="#{itemBean.item}" rowKey="#{item.idItem}" emptyMessage="Não há itens registrados">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Buscar:" />
+                                <p:inputText id="globalFilter" value="#{itemBean.name}" style="width:150px" placeholder="Entre com nome"/>
+                                <p:commandButton value="Novo" action="#{itemBean.novo()}" update="detalhes"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <f:ajax event="rowSelect" listener="#{itemBean.onRowSelected(item.idItem)}" execute="@form" render="detalhes"/>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Discriminação"/>
+                            </f:facet>
+                            <h:outputText value="#{item.discriminacao}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Tipo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Un."/>
+                            </f:facet>
+                            <h:outputText value="#{item.un}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Vlr Unit."/>
+                            </f:facet>
+                            <h:outputText value="#{item.vlrUnit}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
             </p:layoutUnit>
-            
+
             <p:layoutUnit position="center">
                 <h:form id="detalhes">
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="Discriminacao:" for="discriminacao" />
-                            <p:inputText id="discriminacao" value="#{itemBean.item.discriminacao}" title="Discriminacao" required="true" requiredMessage="The Discriminacao field is required."/>
-                            <p:outputLabel value="Tipo:" for="tipo" />
-                            <p:inputText id="tipo" value="#{itemBean.item.tipo}" title="Tipo" required="true" requiredMessage="The Tipo field is required."/>
-                            <p:outputLabel value="Un:" for="un" />
-                            <p:inputText id="un" value="#{itemBean.item.un}" title="Un" required="true" requiredMessage="The Un field is required."/>
-                            <p:outputLabel value="VlrUnit:" for="vlrUnit" />
-                            <p:inputText id="vlrUnit" value="#{itemBean.item.vlrUnit}" title="VlrUnit" required="true" requiredMessage="The VlrUnit field is required."/>
-                        </p:panelGrid>
-                        <p:commandButton value="Salvar" action="#{itemBean.salvar()}" process="detalhes, @this"/>
-                    </h:form>
+                    <p:panelGrid columns="2" styleClass="semBorda">
+                        <p:outputLabel value="Discriminacao:" for="discriminacao" />
+                        <p:inputText id="discriminacao" value="#{itemBean.item.discriminacao}" title="Discriminacao" required="true" requiredMessage="The Discriminacao field is required."/>
+                        <p:outputLabel value="Tipo:" for="tipo" />
+                        <p:selectOneMenu id="tipo" value="#{itemBean.item.tipo}" title="Tipo" required="true" requiredMessage="The Tipo field is required.">
+                            <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="Serviço" itemValue="Serviço"/>
+                            <f:selectItem itemLabel="Material" itemValue="Material"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Un:" for="un" />
+                        <p:inputText id="un" value="#{itemBean.item.un}" title="Un" required="true" requiredMessage="The Un field is required."/>
+                        <p:outputLabel value="VlrUnit:" for="vlrUnit" />
+                        <p:inputText id="vlrUnit" class="js-moeda" value="#{itemBean.item.vlrUnit}" title="VlrUnit" required="true" requiredMessage="The VlrUnit field is required."/>
+                    </p:panelGrid>
+                    <p:commandButton value="Salvar" action="#{itemBean.save()}" update="lista"/>
+                </h:form>
             </p:layoutUnit>
         </p:layout>
     </ui:define>

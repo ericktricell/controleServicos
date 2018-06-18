@@ -5,10 +5,11 @@
  */
 package com.tricell.beans;
 
+import com.tricell.interfac.crud.Crud;
 import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Usuario;
 import com.tricell.repository.DaoGeneric;
-import com.tricell.repository.UsuarioJpaController;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,32 +24,34 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class UsuarioBean extends JPAUtil {
+public class UsuarioBean extends JPAUtil implements Crud, Serializable{
 
     private Usuario usuario = new Usuario();
     private List<Usuario> lsUsuario = new ArrayList<>();
     private List<Usuario> filterUsuario;
     private DaoGeneric<Usuario> controller = new DaoGeneric<>(getFactory());
-    private UsuarioJpaController controller1 = new UsuarioJpaController(getFactory());
 
-    public void pegaUsuarios() {
-        lsUsuario = controller.getListEntity(Usuario.class);
-    }
-
-    public String salvar() {
-        controller.savemerge(usuario);
-        usuario = new Usuario();
+     @Override
+    public String save() {
+        usuario = controller.savemerge(usuario);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Sucesso", "Usuário cadastrado"));
         
-        return "usuario?faces-redirect=true";
-    }
-    
-    public String novo(){
-        usuario = new Usuario();
-        return "usuario?faces-redirect=true";
+        return "";
     }
 
+    @Override
+    public void getList() {
+        lsUsuario = controller.getListEntity(Usuario.class);
+    }
+
+    @Override
+    public String novo(){
+        usuario = new Usuario();
+        return "";
+    }
+
+    @Override
     public String onRowSelected(Long id) {
         for (int i = 0; i < lsUsuario.size(); i++) {
             if (Objects.equals(lsUsuario.get(i).getIdUsuario(), id)) {
@@ -81,6 +84,11 @@ public class UsuarioBean extends JPAUtil {
 
     public void setLsUsuario(List<Usuario> lsUsuario) {
         this.lsUsuario = lsUsuario;
+    }
+
+    @Override
+    public void getListFilter() {
+        
     }
 
 }

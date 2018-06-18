@@ -6,10 +6,12 @@
 package com.tricell.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -33,8 +35,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Itensorc implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ItensorcPK itensorcPK;
+    
+    @Id
+    private String idOrcamento;
+    
+    @Id
+    private long idItem;
     @Basic(optional = false)
     @NotNull
     @Column(name = "num")
@@ -48,28 +54,6 @@ public class Itensorc implements Serializable {
 
     public Itensorc() {
     }
-
-    public Itensorc(ItensorcPK itensorcPK) {
-        this.itensorcPK = itensorcPK;
-    }
-
-    public Itensorc(ItensorcPK itensorcPK, double num) {
-        this.itensorcPK = itensorcPK;
-        this.num = num;
-    }
-
-    public Itensorc(String idOrcamento, long idItem) {
-        this.itensorcPK = new ItensorcPK(idOrcamento, idItem);
-    }
-
-    public ItensorcPK getItensorcPK() {
-        return itensorcPK;
-    }
-
-    public void setItensorcPK(ItensorcPK itensorcPK) {
-        this.itensorcPK = itensorcPK;
-    }
-
     public double getNum() {
         return num;
     }
@@ -96,27 +80,31 @@ public class Itensorc implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (itensorcPK != null ? itensorcPK.hashCode() : 0);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.idOrcamento);
+        hash = 67 * hash + (int) (this.idItem ^ (this.idItem >>> 32));
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Itensorc)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Itensorc other = (Itensorc) object;
-        if ((this.itensorcPK == null && other.itensorcPK != null) || (this.itensorcPK != null && !this.itensorcPK.equals(other.itensorcPK))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Itensorc other = (Itensorc) obj;
+        if (this.idItem != other.idItem) {
+            return false;
+        }
+        if (!Objects.equals(this.idOrcamento, other.idOrcamento)) {
             return false;
         }
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.tricell.model.Itensorc[ itensorcPK=" + itensorcPK + " ]";
-    }
-    
 }

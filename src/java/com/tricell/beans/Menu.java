@@ -20,7 +20,7 @@ import javax.faces.context.FacesContext;
 public class Menu implements Serializable{
     
     public void resumo() throws IOException{
-        FacesContext.getCurrentInstance().getExternalContext().redirect("inicio.jsf");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("index.jsf");
     }
     
     public void empresa() throws IOException{
@@ -33,5 +33,17 @@ public class Menu implements Serializable{
     
     public void itens() throws IOException{
         FacesContext.getCurrentInstance().getExternalContext().redirect("itens.jsf");
+    }
+    
+    public void cliente() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("cliente.jsf");
+    }
+    
+    public void fornecedor() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("fornecedor.jsf");
+    }
+    
+    public void despesas() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("despesas.jsf");
     }
 }

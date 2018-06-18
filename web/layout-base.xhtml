@@ -14,60 +14,61 @@ and open the template in the editor.
     <h:head>
         <title>Controle de Serviços</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="shortcut icon" href="images/logo.png" type="image/x-icon"/>
-        <link rel="stylesheet" href="css/principal.css"/>
+        <h:outputStylesheet name="principal.css" library="css"/>
+        <link rel="shortcut icon" href="resources/images/logo.png" type="image/x-icon"/>
     </h:head>
     <h:body>
-            <p:growl id="messages"/>
-            <h:form>
+        <p:growl id="messages"/>
+        <h:form>
             <nav>
-                <img id="logo" src="images/LogoGrande.png" width="250"/>
-                <img id="faixa" src="images/faixas.png" width="380" height="100"/>
+                <img id="logo" src="resources/images/LogoGrande.png" width="250"/>
+                <img id="faixa" src="resources/images/faixas.png" width="380" height="100"/>
                 <strong id="nomeHead">Controle de Serviços</strong>
-            
 
-            <p:menubar>
-                <p:menuitem value="Resumo" action="#{menu.resumo()}" icon="ui-icon-home"/>
-                <p:submenu label="O.S." icon="ui-icon-document">
-                    <p:submenu label="Ordem de Serviço" icon="ui-icon-clipboard">
-                        <p:menuitem value="Novo" url="#" icon="ui-icon-newwin"/>
-                    <p:separator />
-                    <p:menuitem value="Fechamento" url="#" icon="ui-icon-arrowreturnthick-1-s"/>
+
+                <p:menubar>
+                    <p:menuitem value="Resumo" action="#{menu.resumo()}" icon="ui-icon-home"/>
+                    <p:submenu label="O.S." icon="ui-icon-document">
+                        <p:submenu label="Ordem de Serviço" icon="ui-icon-clipboard">
+                            <p:menuitem value="Novo" url="#" icon="ui-icon-newwin"/>
+                            <p:separator />
+                            <p:menuitem value="Fechamento" url="#" icon="ui-icon-arrowreturnthick-1-s"/>
+                        </p:submenu>
+                        <p:separator />
+                        <p:menuitem value="Despesas" action="#{menu.despesas()}" icon="ui-icon-tag"/>
+                        <p:separator />
+                        <p:menuitem value="Itens" action="#{menu.itens()}" icon="ui-icon-transferthick-e-w"/>
                     </p:submenu>
-                    <p:separator />
-                    <p:menuitem value="Despesas" url="#" icon="ui-icon-tag"/>
-                    <p:separator />
-                    <p:menuitem value="Itens" action="#{menu.itens()}" icon="ui-icon-transferthick-e-w"/>
-                </p:submenu>
 
-                <p:submenu label="Externos" icon="ui-icon-folder-open">
-                    <p:menuitem value="Fornecedores" url="#" icon="ui-icon-bookmark" />
-                    <p:separator />
-                    <p:menuitem value="Clientes" url="#" icon="ui-icon-contact" />
-                </p:submenu>
+                    <p:submenu label="Externos" icon="ui-icon-folder-open">
+                        <p:menuitem value="Fornecedores" action="#{menu.fornecedor()}" icon="ui-icon-bookmark" />
+                        <p:separator />
+                        <p:menuitem value="Clientes" action="#{menu.cliente()}" icon="ui-icon-contact" />
+                    </p:submenu>
 
-                <p:submenu label="" icon="ui-icon-gear">
-                    <p:menuitem value="Empresa" action="#{menu.empresa()}" icon="ui-icon-suitcase" update="messages"/>
+                    <p:submenu label="" icon="ui-icon-gear">
+                        <p:menuitem value="Empresa" action="#{menu.empresa()}" icon="ui-icon-suitcase" update="messages"/>
                         <p:separator />
                         <p:menuitem value="Usuário" action="#{menu.usuario()}" icon="ui-icon-person" update="messages"/>
                     </p:submenu>
-                
-                <p:submenu label="Ajuda" icon="ui-icon-help">
-                    <p:menuitem value="Conteúdo de Ajuda" url="#" />
-                    <p:separator/>
-                    <p:menuitem value="Sobre" url="#" />
-                </p:submenu>
-                
-                <f:facet name="options">
-                    <p:commandButton type="button" value="Sair" icon="ui-icon-extlink" />
-                </f:facet>
-            </p:menubar>
 
-        </nav>
-        <section>
-            <ui:insert name="conteudo"/>
-        </section>
+                    <p:submenu label="Ajuda" icon="ui-icon-help">
+                        <p:menuitem value="Conteúdo de Ajuda" url="#" />
+                        <p:separator/>
+                        <p:menuitem value="Sobre" url="#" />
+                    </p:submenu>
+
+                    <f:facet name="options">
+                        <p:commandButton type="button" value="Sair" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+
+            </nav>
         </h:form>
-        
+        <ui:insert name="conteudo"/>
+        <h:outputScript name="jquery.mask.min.js" library="js"/>
+        <script>
+            jQuery('.js-moeda').mask("#.##0,00", {reverse: true});
+        </script>
     </h:body>
 </html>

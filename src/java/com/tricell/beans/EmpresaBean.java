@@ -8,6 +8,7 @@ package com.tricell.beans;
 import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Empresa;
 import com.tricell.repository.DaoGeneric;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -17,15 +18,18 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class EmpresaBean extends JPAUtil{
+public class EmpresaBean extends JPAUtil implements Serializable{
     
     private Empresa empresa = new Empresa();
     private DaoGeneric<Empresa> con = new DaoGeneric<>(getFactory());
     
     public String salvar(){
-        con.save(empresa);
-        empresa = new Empresa();
-        
+        empresa = con.savemerge(empresa);
+        return "";
+    }
+    
+    public String empresaSalva(){
+        this.empresa = con.getEntidade(Empresa.class);
         return "";
     }
     

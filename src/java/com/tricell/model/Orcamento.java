@@ -69,17 +69,22 @@ public class Orcamento implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "vlrTotal")
     private Double vlrTotal;
+    
     @JoinColumn(name = "idEmpresa", referencedColumnName = "idEmpresa")
     @ManyToOne(optional = false)
     private Empresa idEmpresa;
+    
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
     @ManyToOne(optional = false)
     private Cliente idCliente;
+    
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
     @ManyToOne(optional = false)
     private Usuario idUsuario;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrcamento")
     private List<Centrocusto> centrocustoList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orcamento")
     private List<Itensorc> itensorcList;
 

@@ -5,9 +5,11 @@
  */
 package com.tricell.beans;
 
+import com.tricell.interfac.crud.Crud;
 import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Item;
 import com.tricell.repository.DaoGeneric;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,29 +22,39 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class ItemBean extends JPAUtil{
+public class ItemBean extends JPAUtil implements Crud, Serializable{
     
     private Item item = new Item();
     private List<Item> lsItens = new ArrayList<>();
     private DaoGeneric<Item> dao = new DaoGeneric<>(getFactory());
+    private String name;
     
-    public void pegaItens(){
+    @Override
+    public void getList(){
         lsItens = dao.getListEntity(Item.class);
     }
     
-    public String salvar(){
-        dao.savemerge(item);
-        item = new Item();
+    @Override
+    public String save(){
+        item = dao.savemerge(item);
         
-        return "utens?faces-redirect=true";
+        return "itens?faces-redirect=true";
     }
     
+
+    @Override
+    public void getListFilter() {
+        lsItens = dao.filter("Item.findByDiscriminacao", name , "discriminacao");
+    }
+    
+    @Override
     public String novo(){
         item = new Item();
         
-        return "utens?faces-redirect=true";
+        return "";
     }
 
+    @Override
     public String onRowSelected(Long id) {
         for (int i = 0; i < lsItens.size(); i++) {
             if (Objects.equals(lsItens.get(i).getIdItem(), id)) {
@@ -52,6 +64,15 @@ public class ItemBean extends JPAUtil{
         }
         return "";
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public Item getItem() {
         return item;
     }
@@ -67,6 +88,5 @@ public class ItemBean extends JPAUtil{
     public void setLsItens(List<Item> lsItens) {
         this.lsItens = lsItens;
     }
-    
     
 }

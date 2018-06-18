@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{clienteBean.getList()}"/>
+        </f:metadata>
+        <p:layout>
+            <p:layoutUnit position="west" resizable="false" size="650">
+                <h:form id="lista">
+                    <p:dataTable value="#{clienteBean.lsCliente}" var="item" selectionMode="single" selection="#{clienteBean.cliente}" rowKey="#{item.idCliente}"
+                                 emptyMessage="Não há clientes cadastrados">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Buscar:" />
+                                <p:inputText style="width:150px" placeholder="Entre com nome"/>
+                                <p:commandButton value="Novo" action="#{clienteBean.novo()}" update="detalhes"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <f:ajax event="rowSelect" listener="#{clienteBean.onRowSelected(item.idCliente)}" execute="@form" render="detalhes"/>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nome"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nome}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Telefone"/>
+                            </f:facet>
+                            <h:outputText value="#{item.telefone}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <h:form id="detalhes">
+                        <p:panelGrid columns="2" styleClass="semBorda">
+                            <p:outputLabel value="Nome:" for="nome" />
+                            <p:inputText id="nome" value="#{clienteBean.cliente.nome}" title="Nome" required="true" requiredMessage="The Nome field is required."/>
+                            <p:outputLabel value="Telefone:" for="telefone" />
+                            <p:inputText id="telefone" value="#{clienteBean.cliente.telefone}" title="Telefone" />
+                            <p:outputLabel value="Logradouro:" for="logradouro" />
+                            <p:inputText id="logradouro" value="#{clienteBean.cliente.logradouro}" title="Logradouro" />
+                            <p:outputLabel value="Num:" for="num" />
+                            <p:inputText id="num" value="#{clienteBean.cliente.num}" title="Num" />
+                            <p:outputLabel value="Bairro:" for="bairro" />
+                            <p:inputText id="bairro" value="#{clienteBean.cliente.bairro}" title="Bairro" />
+                            <p:outputLabel value="Cidade:" for="cidade" />
+                            <p:inputText id="cidade" value="#{clienteBean.cliente.cidade}" title="Cidade" />
+                            <p:outputLabel value="Cep:" for="cep" />
+                            <p:inputText id="cep" value="#{clienteBean.cliente.cep}" title="Cep" />
+                            <p:outputLabel value="Uf:" for="uf" />
+                            <p:inputText id="uf" value="#{clienteBean.cliente.uf}" title="Uf" />
+                        </p:panelGrid>
+                    <p:commandButton action="#{clienteBean.save()}" value="Salvar" update="lista"/>
+                    </h:form>
+
+            </p:layoutUnit>
+        </p:layout>
+    </ui:define>
+</ui:composition>
