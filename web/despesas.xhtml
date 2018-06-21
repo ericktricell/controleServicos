@@ -68,13 +68,13 @@
                         <p:outputLabel value="Valor:" for="valor" />
                         <p:inputText id="valor" class="js-moeda" value="#{despesaBean.despesas.valor}" title="Valor" required="true" requiredMessage="The Valor field is required."/>
                         <p:outputLabel value="Vencimento:" for="vencimento" />
-                        <p:calendar id="vencimento" value="#{despesaBean.despesas.vencimento}" showOn="button"/>
+                        <p:calendar locale="pt" id="vencimento" value="#{despesaBean.despesas.vencimento}" showOn="button"/>
                         <p:outputLabel value="Descricao:" for="descricao" />
                         <p:inputText id="descricao" value="#{despesaBean.despesas.descricao}" title="Descricao" required="true" requiredMessage="The Descricao field is required."/>
                         <p:outputLabel value="Pago:" for="pago" />
                         <p:selectBooleanCheckbox id="pago" value="#{despesaBean.despesas.pago}"/>
-                        <p:outputLabel value="DataPagamento:" for="dataPagamento" />
-                        <p:calendar id="dataPagamento" value="#{despesaBean.despesas.dataPagamento}" showOn="button" />
+                        <p:outputLabel value="Data Pag.:" for="dataPagamento" />
+                        <p:calendar locale="pt" id="dataPagamento" value="#{despesaBean.despesas.dataPagamento}" showOn="button" />
                     </p:panelGrid>
                     <p:commandButton value="Salvar" action="#{despesaBean.save()}" update="lista"/>
                 </h:form>
