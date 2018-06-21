@@ -46,4 +46,8 @@ public class Menu implements Serializable{
     public void despesas() throws IOException{
         FacesContext.getCurrentInstance().getExternalContext().redirect("despesas.jsf");
     }
+    
+    public void orcamento() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("orcamento.jsf");
+    }
 }
