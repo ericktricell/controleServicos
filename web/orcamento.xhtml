@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{orcamentoBeans.getComponentes()}"/>
+        </f:metadata>
+        <h:form id="dados">
+            <p:wizard widgetVar="wiz" nextLabel="Próximo" backLabel="Anterior">
+
+                <p:tab id="cabecalho" title="Cabecalho">
+                    <p:panel>
+                        <p:panelGrid columns="2" styleClass="semBorda">
+                            <h:outputText value="Num. Documento:"/>
+                            <p:inputText value="#{orcamentoBeans.orcamento.numDoc}"/>
+                            <h:outputText value="Cliente:"/>
+                            <p:selectOneMenu value="#{orcamentoBeans.orcamento.idCliente}" converter="ClienteConverter" required="true" requiredMessage="Selecione um cliente">
+                                <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                                <f:selectItems value="#{orcamentoBeans.lsCli}" var="cliente" itemValue="#{cliente}" itemLabel="#{cliente.nome}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="itens" title="Serviços/Produtos">
+                    <p:panel>
+                        <p:panelGrid columns="2" styleClass="semBorda" >
+                            <p:outputLabel value="Item" for="itemS"/>
+                            <p:selectOneMenu id="itemS" value="#{orcamentoBeans.itensorc.item}" converter="ItemConverter" required="true" requiredMessage="Selecione um item"
+                                             filter="true" filterMatchMode="startsWith" effect="fade">
+                                <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                                <f:selectItems value="#{orcamentoBeans.lsItens}" var="item" itemLabel="#{item.discriminacao}" itemValue="#{item}"/>
+                                <p:ajax update="valor" event="change"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Valor:" for="num"/>
+                            <p:inputText id="valor" value="#{orcamentoBeans.itensorc.item.vlrUnit}" readonly="true"/>
+                            <p:outputLabel value="Quantidade:" for="num"/>
+                            <p:inputText id="num" value="#{orcamentoBeans.itensorc.num}">
+                                <p:ajax listener="#{orcamentoBeans.calculaTotal()}" update="vlrTotal"/>
+                            </p:inputText>
+                        </p:panelGrid><p:panelGrid columns="3" styleClass="semBorda">
+                            <p:outputLabel for="vlrTotal" value="Valor Total:"/>
+                            <p:inputText id="vlrTotal" value="#{orcamentoBeans.vlrTotal}" readonly="true"/>
+                            <p:commandButton value="Adicionar" action="#{orcamentoBeans.addItem()}" update="tableItens"/>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:panel>
+                        <p:dataTable id="tableItens" value="#{orcamentoBeans.lsItensOrc}" var="iorc" emptyMessage="Nenhum registro encontrado"
+                                     rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                Serviços / Produtos Selecionados
+                            </f:facet>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Discriminação"/>
+                                </f:facet>
+                                <h:outputText value="#{iorc.item.discriminacao}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Valor Unit."/>
+                                </f:facet>
+                                <h:outputText value="#{iorc.item.vlrUnit}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Quant."/>
+                                </f:facet>
+                                <h:outputText value="#{iorc.num}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Total"/>
+                                </f:facet>
+                                <h:outputText value="#{iorc.num * iorc.item.vlrUnit}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="fechamento" title="Fechamento">
+                    <p:panel>
+                        <p:panelGrid columns="2" styleClass="semBorda">
+                        <p:outputLabel value="Condição de Pag.:" for="condPag"/>
+                        <p:selectOneMenu id="condPag" value="#{orcamentoBeans.orcamento.condPag}">
+                            <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="Dinheiro" itemValue="Dinheiro"/>
+                            <f:selectItem itemLabel="Cart. Débito" itemValue="Cart. Débito"/>
+                            <f:selectItem itemLabel="Cart. Crédito" itemValue="Cart. Crédito"/>
+                            <f:selectItem itemLabel="Deposito Banc." itemValue="Deposito Banc."/>
+                            <f:selectItem itemLabel="Transferência Banc." itemValue="Transferência Banc."/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Data" for="data"/>
+                        <p:calendar id="data" locale="pt" showOn="button" value="#{orcamentoBeans.orcamento.data}"/>
+                        </p:panelGrid>
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
