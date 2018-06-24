@@ -24,20 +24,19 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class UsuarioBean extends JPAUtil implements Crud, Serializable{
+public class UsuarioBean implements Crud, Serializable{
 
     private Usuario usuario = new Usuario();
     private List<Usuario> lsUsuario = new ArrayList<>();
     private List<Usuario> filterUsuario;
-    private DaoGeneric<Usuario> controller = new DaoGeneric<>(getFactory());
+    private DaoGeneric<Usuario> controller = new DaoGeneric<>();
 
      @Override
-    public String save() {
-        usuario = controller.savemerge(usuario);
+    public void save() {
+        controller.savemerge(usuario);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Sucesso", "Usuário cadastrado"));
         
-        return "";
     }
 
     @Override
@@ -46,9 +45,9 @@ public class UsuarioBean extends JPAUtil implements Crud, Serializable{
     }
 
     @Override
-    public String novo(){
+    public void novo(){
         usuario = new Usuario();
-        return "";
+        
     }
 
     @Override

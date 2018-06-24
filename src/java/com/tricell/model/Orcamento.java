@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Orcamento.findAll", query = "SELECT o FROM Orcamento o")
+    , @NamedQuery(name = "orcamento.pegaid", query = "select count(idOrcamento) FROM Orcamento")
     , @NamedQuery(name = "Orcamento.findByIdOrcamento", query = "SELECT o FROM Orcamento o WHERE o.idOrcamento = :idOrcamento")
     , @NamedQuery(name = "Orcamento.findByCondPag", query = "SELECT o FROM Orcamento o WHERE o.condPag = :condPag")
     , @NamedQuery(name = "Orcamento.findByData", query = "SELECT o FROM Orcamento o WHERE o.data = :data")

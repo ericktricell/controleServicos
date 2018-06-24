@@ -18,19 +18,19 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class EmpresaBean extends JPAUtil implements Serializable{
+public class EmpresaBean implements Serializable{
     
     private Empresa empresa = new Empresa();
-    private DaoGeneric<Empresa> con = new DaoGeneric<>(getFactory());
+    private DaoGeneric<Empresa> con = new DaoGeneric<>();
     
-    public String salvar(){
-        empresa = con.savemerge(empresa);
-        return "";
+    public void salvar(){
+        con.savemerge(empresa);
+        
     }
     
-    public String empresaSalva(){
+    public void empresaSalva(){
         this.empresa = con.getEntidade(Empresa.class);
-        return "";
+        
     }
     
     public Empresa getEmpresa() {

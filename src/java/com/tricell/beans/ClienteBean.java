@@ -22,23 +22,22 @@ import javax.faces.bean.SessionScoped;
  */
 @SessionScoped
 @ManagedBean
-public class ClienteBean extends JPAUtil implements Crud, Serializable{
+public class ClienteBean implements Crud, Serializable{
     
     private Cliente cliente = new Cliente();
     private List<Cliente> lsCliente = new ArrayList<>();
-    private DaoGeneric<Cliente> dao = new DaoGeneric<>(getFactory());
+    private DaoGeneric<Cliente> dao = new DaoGeneric<>();
 
     @Override
-    public String save(){
-        cliente = dao.savemerge(cliente);
+    public void save(){
+        dao.savemerge(cliente);
         
-        return "";
     }
     
     @Override
-    public String novo() {
+    public void novo() {
         cliente = new Cliente();
-        return "";
+        
     }
 
     @Override

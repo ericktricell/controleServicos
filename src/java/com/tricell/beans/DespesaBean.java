@@ -22,25 +22,23 @@ import javax.faces.bean.SessionScoped;
  */
 @SessionScoped
 @ManagedBean
-public class DespesaBean extends JPAUtil implements Crud, Serializable{
+public class DespesaBean implements Crud, Serializable{
 
     private Despesas despesas = new Despesas();
     private List<Despesas> lsDespesas = new ArrayList<>();
-    private DaoGeneric<Despesas> dao = new DaoGeneric<>(getFactory());
+    private DaoGeneric<Despesas> dao = new DaoGeneric<>();
     
     @Override
-    public String save() {
+    public void save() {
         dao.savemerge(despesas);
         
-        return "";
     }
 
     @Override
-    public String novo() {
+    public void novo() {
         
         despesas = new Despesas();
         
-        return "";
     }
 
     @Override

@@ -5,122 +5,79 @@
  */
 package com.tricell.repository;
 
+import com.tricell.jpautil.HibernateUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
  * @author Eu
  */
 public class DaoGeneric<E> implements Serializable{
-    
-    private EntityManagerFactory emf = null;
 
-    public DaoGeneric(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
-    
     public void save(E entidade){
-        EntityManager em = null;
+        Session sessao = HibernateUtil.getSessionfactory().openSession();
+        Transaction t = null;
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            
-            em.persist(entidade);
-            em.getTransaction().commit();
+            t = sessao.beginTransaction();
+            sessao.save(entidade);
+            t.commit();
         } catch (Exception e){
             e.printStackTrace();
-            em.getTransaction().rollback();
+            t.rollback();
         }finally{
-            if (em != null) {
-                em.close();
-            }
+            sessao.close();
         }
     }
     
-    public E savemerge(E entidade){
-        EntityManager em = null;
+    public void savemerge(E entidade){
+        Session sessao = HibernateUtil.getSessionfactory().openSession();
+        Transaction t = null;
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            
-            entidade = (E) em.merge(entidade);
-            
-            em.getTransaction().commit();
-            return entidade;
+            t = sessao.beginTransaction();
+            sessao.saveOrUpdate(entidade);
+            t.commit();
         } catch (Exception e){
             e.printStackTrace();
-            em.getTransaction().rollback();
-            return entidade;
-        }finally{
+            t.rollback();
             
-            if (em != null) {
-                em.close();
-            }
+        }finally{
+           sessao.close();
         }
     }
     
     public E getEntidade(Class<E> entidade){
-        EntityManager em = null;
+        Session sessao = HibernateUtil.getSessionfactory().openSession();
         E retorno = null;
         
         try{
-            em = getEntityManager();
-            em.getTransaction().begin();
             
-            retorno = (E) em.createQuery("from " + entidade.getName()).getSingleResult();
+            retorno = (E) sessao.createCriteria(entidade).uniqueResult();
         }catch(Exception e){
             e.printStackTrace();
         }finally{
-            if (em != null) {
-                em.close();
-            }
+            sessao.close();
         }
         
-        return retorno;
-    }
-    
-    public List<E> filter(String txt, String name, String prm){
-        EntityManager em = null;
-        List<E> retorno = new ArrayList<>();
-        try{
-            em = getEntityManager();
-            em.getTransaction().begin();
-            Query q = em.createNamedQuery(name);
-            q.setParameter(prm, "%" +txt + "%");
-            retorno = q.getResultList();
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally{
-            if (em != null) {
-                em.close();
-            }
-        }
         return retorno;
     }
     
     public List<E> getListEntity(Class<E> entidade){
-        EntityManager em = null;
+        Session sessao = HibernateUtil.getSessionfactory().openSession();
         List<E> retorno = new ArrayList<>();
         try{
-            em = getEntityManager();
-            em.getTransaction().begin();
             
-            retorno = em.createQuery("from " + entidade.getName()).getResultList();
+            retorno = sessao.createCriteria(entidade).list();
         }catch(Exception e){
             e.printStackTrace();
         }finally{
-            if (em != null) {
-                em.close();
-            }
+            sessao.close();
         }
         return retorno;
     }

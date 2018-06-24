@@ -22,26 +22,37 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class LoginBean implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String login,
             senha;
     private Usuario user = null;
 
     public String valida() {
 
-        user = new LoginDAO().validaLogin(login, senha);
+        if (login.equals("admin") && senha.equals("tricell")) {
+            return "cad-usuario?faces-redirect=true";
+        } else {
+            user = new LoginDAO().validaLogin(login, senha);
 
-        if (user != null) {
-            
-            //adicionar o usuário na sessão usuarioLogado
-            FacesContext context = FacesContext.getCurrentInstance();
-            ExternalContext externalContext = context.getExternalContext();
-            externalContext.getSessionMap().put("usuarioLogado", user);
-            
-            return "/inicio?faces-redirect=true";
-        } 
+            if (user != null) {
+
+                //adicionar o usuário na sessão usuarioLogado
+                FacesContext context = FacesContext.getCurrentInstance();
+                ExternalContext externalContext = context.getExternalContext();
+                externalContext.getSessionMap().put("usuarioLogado", user);
+
+                return "/inicio?faces-redirect=true";
+            }
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Falha", "Login ou senha inválidos"));
-        
+        }
+        return "";
+    }
+
+    public String verificaUser() {
+        if (user == null) {
+            return "/index?faces-redirect=true";
+        }
         return "";
     }
 

@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -29,8 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Itensorc.findAll", query = "SELECT i FROM Itensorc i")
-    , @NamedQuery(name = "Itensorc.findByIdOrcamento", query = "SELECT i FROM Itensorc i WHERE i.itensorcPK.idOrcamento = :idOrcamento")
-    , @NamedQuery(name = "Itensorc.findByIdItem", query = "SELECT i FROM Itensorc i WHERE i.itensorcPK.idItem = :idItem")
     , @NamedQuery(name = "Itensorc.findByNum", query = "SELECT i FROM Itensorc i WHERE i.num = :num")})
 public class Itensorc implements Serializable {
 
@@ -54,6 +51,23 @@ public class Itensorc implements Serializable {
 
     public Itensorc() {
     }
+
+    public String getIdOrcamento() {
+        return idOrcamento;
+    }
+
+    public void setIdOrcamento(String idOrcamento) {
+        this.idOrcamento = idOrcamento;
+    }
+
+    public long getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(long idItem) {
+        this.idItem = idItem;
+    }
+    
     public double getNum() {
         return num;
     }

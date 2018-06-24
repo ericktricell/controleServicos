@@ -22,11 +22,11 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class ItemBean extends JPAUtil implements Crud, Serializable{
+public class ItemBean implements Crud, Serializable{
     
     private Item item = new Item();
     private List<Item> lsItens = new ArrayList<>();
-    private DaoGeneric<Item> dao = new DaoGeneric<>(getFactory());
+    private DaoGeneric<Item> dao = new DaoGeneric<>();
     private String name;
     
     @Override
@@ -35,23 +35,21 @@ public class ItemBean extends JPAUtil implements Crud, Serializable{
     }
     
     @Override
-    public String save(){
-        item = dao.savemerge(item);
+    public void save(){
+        dao.savemerge(item);
         
-        return "itens?faces-redirect=true";
     }
     
 
     @Override
     public void getListFilter() {
-        lsItens = dao.filter("Item.findByDiscriminacao", name , "discriminacao");
+        
     }
     
     @Override
-    public String novo(){
+    public void novo(){
         item = new Item();
         
-        return "";
     }
 
     @Override

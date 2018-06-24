@@ -8,6 +8,7 @@
 
     <ui:define name="conteudo">
         <f:metadata>
+            <f:viewAction action="#{loginBean.verificaUser()}"/>
             <f:viewAction action="#{orcamentoBeans.getComponentes()}"/>
         </f:metadata>
         <h:form id="dados">
@@ -95,7 +96,14 @@
                         </p:selectOneMenu>
                         <p:outputLabel value="Data" for="data"/>
                         <p:calendar id="data" locale="pt" showOn="button" value="#{orcamentoBeans.orcamento.data}"/>
+                        <p:outputLabel value="Total Orc.:" for="totalorc"/>
+                        <p:inputText id="totalorc" readonly="true" value="#{orcamentoBeans.vlrTotalOrc}"/>
+                        <p:outputLabel for="prazo" value="Prazo de Entr.:"/>
+                        <p:inputText id="prazo" value="#{orcamentoBeans.orcamento.prazoEnt}"/>
+                        <p:outputLabel for="obs" value="Obs:"/>
+                        <p:inputTextarea id="obs" value="#{orcamentoBeans.orcamento.obs}"/>
                         </p:panelGrid>
+                        <p:commandButton action="#{orcamentoBeans.save()}" value="Salvar"/>
                     </p:panel>
                 </p:tab>
             </p:wizard>

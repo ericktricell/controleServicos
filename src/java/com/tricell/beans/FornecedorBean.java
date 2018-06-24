@@ -6,7 +6,6 @@
 package com.tricell.beans;
 
 import com.tricell.interfac.crud.Crud;
-import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Fornecedor;
 import com.tricell.repository.DaoGeneric;
 import java.io.Serializable;
@@ -22,24 +21,22 @@ import javax.faces.bean.SessionScoped;
  */
 @SessionScoped
 @ManagedBean
-public class FornecedorBean extends JPAUtil implements Crud, Serializable{
+public class FornecedorBean implements Crud, Serializable{
 
     private Fornecedor fornecedor = new Fornecedor();
     private List<Fornecedor> lsFornecedor = new ArrayList<>();
-    private DaoGeneric<Fornecedor> dao = new DaoGeneric<>(getFactory());
+    private DaoGeneric<Fornecedor> dao = new DaoGeneric<>();
     
     @Override
-    public String save() {
-        fornecedor = dao.savemerge(fornecedor);
+    public void save() {
+        dao.savemerge(fornecedor);
         
-        return "fornecedor?faces-redirect=true";
     }
 
     @Override
-    public String novo() {
+    public void novo() {
         fornecedor = new Fornecedor();
         
-        return "";
     }
 
     @Override

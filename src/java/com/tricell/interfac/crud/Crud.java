@@ -10,9 +10,9 @@ package com.tricell.interfac.crud;
  * @author Eu
  */
 public interface Crud {
-    String save();
+    void save();
     
-    String novo();
+    void novo();
     
     void getList();
     

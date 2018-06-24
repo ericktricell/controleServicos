@@ -5,32 +5,34 @@
  */
 package com.tricell.repository;
 
+import com.tricell.jpautil.HibernateUtil;
 import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Usuario;
 import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  *
  * @author Eu
  */
-public class LoginDAO extends JPAUtil implements Serializable{
+public class LoginDAO implements Serializable{
 
     public Usuario validaLogin(String login, String senha){
-        EntityManager em = getEntityManager();
+        Session s = HibernateUtil.getSessionfactory().openSession();
         Usuario u = null;
         try{
-            Query q = em.createNamedQuery("Usuario.valida");
+            Query q = s.getNamedQuery("Usuario.valida");
             q.setParameter("login", login);
             q.setParameter("senha", senha);
             
-            u = (Usuario) q.getSingleResult();
+            u = (Usuario) q.uniqueResult();
         }catch(NoResultException e){
             u = null;
         }finally{
-            em.close();
+            s.close();
         }
         return u;
     }

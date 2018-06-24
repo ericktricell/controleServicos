@@ -30,7 +30,9 @@ and open the template in the editor.
                     <p:menuitem value="Resumo" action="#{menu.resumo()}" icon="ui-icon-home"/>
                     <p:submenu label="O.S." icon="ui-icon-document">
                         <p:submenu label="Ordem de Serviço" icon="ui-icon-clipboard">
-                            <p:menuitem value="Novo" url="#" icon="ui-icon-newwin"/>
+                            <p:menuitem value="Novo" action="#{menu.orcamento()}"  icon="ui-icon-newwin">
+                                <f:setPropertyActionListener value="#{loginBean.user}" target="#{orcamentoBeans.usuarioLogado}"/>
+                            </p:menuitem>
                             <p:separator />
                             <p:menuitem value="Fechamento" url="#" icon="ui-icon-arrowreturnthick-1-s"/>
                         </p:submenu>
@@ -67,6 +69,34 @@ and open the template in the editor.
         </h:form>
         <ui:insert name="conteudo"/>
         <h:outputScript name="jquery.mask.min.js" library="js"/>
+        <script>
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Só Horas',
+                timeText: 'Tempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                ampm: false,
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo o Dia'
+            };
+        </script>
         <script>
             jQuery('.js-moeda').mask("#.##0,00", {reverse: true});
         </script>

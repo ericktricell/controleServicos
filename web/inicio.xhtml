@@ -7,6 +7,8 @@
                 template="layout-base.xhtml">
 
     <ui:define name="conteudo">
-        
+        <f:metadata>
+            <f:viewAction action="#{loginBean.verificaUser()}"/>
+        </f:metadata>
     </ui:define>
 </ui:composition>

@@ -6,11 +6,14 @@
 package com.tricell.beans;
 
 import com.tricell.interfac.crud.Crud;
-import com.tricell.jpautil.JPAUtil;
+import com.tricell.model.Cliente;
 import com.tricell.model.Empresa;
+import com.tricell.model.Item;
+import com.tricell.model.Itensorc;
 import com.tricell.model.Orcamento;
 import com.tricell.model.Usuario;
 import com.tricell.repository.DaoGeneric;
+import com.tricell.repository.OrcamentoController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,24 +27,45 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class OrcamentoBeans extends JPAUtil implements Crud,Serializable{
+public class OrcamentoBeans implements Crud, Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     private Orcamento orcamento = new Orcamento();
     private Usuario usuarioLogado = new Usuario();
     private List<Orcamento> lsOrcamento = new ArrayList<>();
-    private DaoGeneric<Orcamento> dao = new DaoGeneric<>(getFactory());
+    private DaoGeneric<Orcamento> dao = new DaoGeneric<>();
+    private List<Itensorc> lsItensOrc = new ArrayList<>();
+    private Itensorc itensorc = new Itensorc();
+    private List<Item> lsItens = new ArrayList<>();
+    private List<Cliente> lsCli = new ArrayList<>();
+    private OrcamentoController controller = new OrcamentoController();
+    private boolean skip;
+    private Empresa empresa = new Empresa();
+    private Double vlrTotal = new Double(0.0);
+    private Double vlrTotalOrc = new Double(0.0);
 
+    public void addItem(){
+        itensorc.setIdItem(itensorc.getItem().getIdItem());
+        itensorc.setIdOrcamento(orcamento.getIdOrcamento());
+        vlrTotalOrc += itensorc.getNum() * itensorc.getItem().getVlrUnit();
+        lsItensOrc.add(itensorc);
+        itensorc = new Itensorc();
+    }
+    
+    
     @Override
-    public String save() {
-        orcamento = dao.savemerge(orcamento);
-        
-        return "";
+    public void save() {
+        orcamento.setIdEmpresa(empresa);
+        orcamento.setIdUsuario(usuarioLogado);
+        orcamento.setItensorcList(lsItensOrc);
+        dao.savemerge(orcamento);    
     }
 
     @Override
-    public String novo() {
+    public void novo() {
         orcamento = new Orcamento();
-        return "";
+        
     }
 
     @Override
@@ -51,7 +75,7 @@ public class OrcamentoBeans extends JPAUtil implements Crud,Serializable{
 
     @Override
     public void getListFilter() {
-        
+
     }
 
     @Override
@@ -63,6 +87,50 @@ public class OrcamentoBeans extends JPAUtil implements Crud,Serializable{
             }
         }
         return "";
+    }
+
+    public void calculaTotal(){
+        vlrTotal = itensorc.getItem().getVlrUnit() * itensorc.getNum();
+    }
+    
+    public void getComponentes(){
+        lsCli = controller.findCliente();
+        lsItens = controller.findItens();
+        empresa = controller.findEmpresa();
+        orcamento.setNumDoc(usuarioLogado.getNome().substring(0, 2) + controller.getIdOrcamento());
+        orcamento.setIdOrcamento(orcamento.getNumDoc());
+    }
+
+    public Double getVlrTotalOrc() {
+        return vlrTotalOrc;
+    }
+
+    public void setVlrTotalOrc(Double vlrTotalOrc) {
+        this.vlrTotalOrc = vlrTotalOrc;
+    }
+
+    public Double getVlrTotal() {
+        return vlrTotal;
+    }
+
+    public void setVlrTotal(Double vlrTotal) {
+        this.vlrTotal = vlrTotal;
+    }
+
+    public Itensorc getItensorc() {
+        return itensorc;
+    }
+
+    public void setItensorc(Itensorc itensorc) {
+        this.itensorc = itensorc;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 
     public Usuario getUsuarioLogado() {
@@ -88,6 +156,29 @@ public class OrcamentoBeans extends JPAUtil implements Crud,Serializable{
     public void setLsOrcamento(List<Orcamento> lsOrcamento) {
         this.lsOrcamento = lsOrcamento;
     }
-    
-    
+
+    public List<Itensorc> getLsItensOrc() {
+        return lsItensOrc;
+    }
+
+    public void setLsItensOrc(List<Itensorc> lsItensOrc) {
+        this.lsItensOrc = lsItensOrc;
+    }
+
+    public List<Item> getLsItens() {
+        return lsItens;
+    }
+
+    public void setLsItens(List<Item> lsItens) {
+        this.lsItens = lsItens;
+    }
+
+    public List<Cliente> getLsCli() {
+        return lsCli;
+    }
+
+    public void setLsCli(List<Cliente> lsCli) {
+        this.lsCli = lsCli;
+    }
+
 }
