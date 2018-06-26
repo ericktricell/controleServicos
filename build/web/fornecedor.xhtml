@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{fornecedorBean.getList()}"/>
+            <f:viewAction action="#{loginBean.verificaUser()}"/>
+        </f:metadata>
+        <p:layout>
+            <p:layoutUnit position="west" resizable="false" size="650">
+                <h:form id="lista">
+                        <p:dataTable value="#{fornecedorBean.lsFornecedor}" var="item" selectionMode="single" selection="#{fornecedorBean.fornecedor}" rowKey="#{item.idFornecedor}"
+                                     emptyMessage="Não há Fornecedores cadastrados">
+                            <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Buscar:" />
+                                <p:inputText style="width:150px" placeholder="Entre com nome"/>
+                                <p:commandButton value="Novo" action="#{fornecedorBean.novo()}" update="detalhes"/>
+                            </p:outputPanel>
+                        </f:facet>
+                            <f:ajax event="rowSelect" listener="#{fornecedorBean.onRowSelected(item.idFornecedor)}" execute="@form" render="detalhes"/>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome Fantasia"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nomeFantasia}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Razao Social"/>
+                                </f:facet>
+                                <h:outputText value="#{item.razaoSocial}"/>
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cnpj/Cpf"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cnpjCpf}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Site"/>
+                                </f:facet>
+                                <h:outputText value="#{item.site}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <h:form id="detalhes">
+                        <p:panelGrid columns="2" styleClass="semBorda">
+                            <p:outputLabel value="Nome Fantasia:" for="nomeFantasia" />
+                            <p:inputText id="nomeFantasia" value="#{fornecedorBean.fornecedor.nomeFantasia}" title="NomeFantasia" />
+                            <p:outputLabel value="Razao Social:" for="razaoSocial" />
+                            <p:inputText id="razaoSocial" value="#{fornecedorBean.fornecedor.razaoSocial}" title="RazaoSocial" required="true" requiredMessage="The RazaoSocial field is required."/>
+                            <p:outputLabel value="Cnpj/Cpf:" for="cnpjCpf" />
+                            <p:inputText id="cnpjCpf" value="#{fornecedorBean.fornecedor.cnpjCpf}" title="CnpjCpf" required="true" requiredMessage="The CnpjCpf field is required."/>
+                            <p:outputLabel value="Inscricao Estadual:" for="inscricaoEstadual" />
+                            <p:inputText id="inscricaoEstadual" value="#{fornecedorBean.fornecedor.inscricaoEstadual}" title="InscricaoEstadual" />
+                            <p:outputLabel value="Site:" for="site" />
+                            <p:inputText id="site" value="#{fornecedorBean.fornecedor.site}" title="Site" />
+                            <p:outputLabel value="Logradouro:" for="logradouro" />
+                            <p:inputText id="logradouro" value="#{fornecedorBean.fornecedor.logradouro}" title="Logradouro" required="true" requiredMessage="The Logradouro field is required."/>
+                            <p:outputLabel value="Num:" for="num" />
+                            <p:inputText id="num" value="#{fornecedorBean.fornecedor.num}" title="Num" required="true" requiredMessage="The Num field is required."/>
+                            <p:outputLabel value="Bairro:" for="bairro" />
+                            <p:inputText id="bairro" value="#{fornecedorBean.fornecedor.bairro}" title="Bairro" required="true" requiredMessage="The Bairro field is required."/>
+                            <p:outputLabel value="Cidade:" for="cidade" />
+                            <p:inputText id="cidade" value="#{fornecedorBean.fornecedor.cidade}" title="Cidade" required="true" requiredMessage="The Cidade field is required."/>
+                            <p:outputLabel value="Cep:" for="cep" />
+                            <p:inputText id="cep" value="#{fornecedorBean.fornecedor.cep}" title="Cep" required="true" requiredMessage="The Cep field is required."/>
+                            <p:outputLabel value="Inativo:" for="inativo" />
+                            <p:selectBooleanCheckbox id="inativo" value="#{fornecedorBean.fornecedor.inativo}"/>
+                        </p:panelGrid>
+                    <p:commandButton action="#{fornecedorBean.save()}" value="Salvar" update="lista"/>
+                    </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </ui:define>
+</ui:composition>
