@@ -38,13 +38,16 @@ public class Itensorc implements Serializable {
     
     @Id
     private long idItem;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "num")
     private double num;
+    
     @JoinColumn(name = "idItem", referencedColumnName = "idItem", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Item item;
+    
     @JoinColumn(name = "idOrcamento", referencedColumnName = "idOrcamento", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Orcamento orcamento;

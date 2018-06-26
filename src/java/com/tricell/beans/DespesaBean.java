@@ -6,9 +6,12 @@
 package com.tricell.beans;
 
 import com.tricell.interfac.crud.Crud;
-import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Despesas;
+import com.tricell.model.Fornecedor;
+import com.tricell.model.Item;
+import com.tricell.model.Orcamento;
 import com.tricell.repository.DaoGeneric;
+import com.tricell.repository.OrcamentoController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,42 +23,17 @@ import javax.faces.bean.SessionScoped;
  *
  * @author Eu
  */
-@SessionScoped
 @ManagedBean
-public class DespesaBean implements Crud, Serializable{
-
-    private Despesas despesas = new Despesas();
-    private List<Despesas> lsDespesas = new ArrayList<>();
-    private DaoGeneric<Despesas> dao = new DaoGeneric<>();
+@SessionScoped
+public class DespesaBean implements Crud,Serializable{
     
-    @Override
-    public void save() {
-        dao.savemerge(despesas);
-        
-    }
-
-    @Override
-    public void novo() {
-        
-        despesas = new Despesas();
-        
-    }
-
-    @Override
-    public void getList() {
-        lsDespesas = dao.getListEntity(Despesas.class);
-    }
-
-    @Override
-    public String onRowSelected(Long id) {
-        for (int i = 0; i < lsDespesas.size(); i++) {
-            if (Objects.equals(lsDespesas.get(i).getIdDespesa(), id)) {
-                despesas = lsDespesas.get(i);
-                break;
-            }
-        }
-        return "";
-    }
+    private Despesas despesas = new Despesas();
+    private List<Despesas> lsDespesa = new ArrayList<>();
+    private DaoGeneric<Despesas> dao = new DaoGeneric();
+    private List<Item> lsItem = new ArrayList<>();
+    private List<Orcamento> lsOrcamento = new ArrayList<>();
+    private List<Fornecedor> lsFornecedor = new ArrayList<>();
+    private OrcamentoController controller = new OrcamentoController();
 
     public Despesas getDespesas() {
         return despesas;
@@ -65,17 +43,70 @@ public class DespesaBean implements Crud, Serializable{
         this.despesas = despesas;
     }
 
-    public List<Despesas> getLsDespesas() {
-        return lsDespesas;
+    public List<Despesas> getLsDespesa() {
+        return lsDespesa;
     }
 
-    public void setLsDespesas(List<Despesas> lsDespesas) {
-        this.lsDespesas = lsDespesas;
+    public void setLsDespesa(List<Despesas> lsDespesa) {
+        this.lsDespesa = lsDespesa;
+    }
+
+    public List<Item> getLsItem() {
+        return lsItem;
+    }
+
+    public void setLsItem(List<Item> lsItem) {
+        this.lsItem = lsItem;
+    }
+
+    public List<Orcamento> getLsOrcamento() {
+        return lsOrcamento;
+    }
+
+    public void setLsOrcamento(List<Orcamento> lsOrcamento) {
+        this.lsOrcamento = lsOrcamento;
+    }
+
+    public List<Fornecedor> getLsFornecedor() {
+        return lsFornecedor;
+    }
+
+    public void setLsFornecedor(List<Fornecedor> lsFornecedor) {
+        this.lsFornecedor = lsFornecedor;
+    }
+
+    @Override
+    public void save() {
+        dao.savemerge(despesas);
+    }
+
+    @Override
+    public void novo() {
+        despesas = new Despesas();
+    }
+
+    @Override
+    public void getList() {
+        lsDespesa = dao.getListEntity(Despesas.class);
+        lsItem = controller.findItens();
+        lsOrcamento = controller.findOrcamento();
+        lsFornecedor = controller.findFornecedor();
     }
 
     @Override
     public void getListFilter() {
         
+    }
+
+    @Override
+    public String onRowSelected(Long id) {
+        for (int i = 0; i < lsDespesa.size(); i++) {
+            if (Objects.equals(lsDespesa.get(i).getIdDespesa(), id)) {
+                despesas = lsDespesa.get(i);
+                break;
+            }
+        }
+        return "";
     }
     
     

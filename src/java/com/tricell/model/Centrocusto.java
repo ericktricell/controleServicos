@@ -37,12 +37,7 @@ public class Centrocusto implements Serializable {
     @Basic(optional = false)
     @Column(name = "idCentroCusto")
     private Long idCentroCusto;
-    @JoinColumn(name = "idDespesa", referencedColumnName = "idDespesa")
-    @ManyToOne(optional = false)
-    private Despesas idDespesa;
-    @JoinColumn(name = "idFornecedor", referencedColumnName = "idFornecedor")
-    @ManyToOne(optional = false)
-    private Fornecedor idFornecedor;
+    
     @JoinColumn(name = "idOrcamento", referencedColumnName = "idOrcamento")
     @ManyToOne(optional = false)
     private Orcamento idOrcamento;
@@ -60,22 +55,6 @@ public class Centrocusto implements Serializable {
 
     public void setIdCentroCusto(Long idCentroCusto) {
         this.idCentroCusto = idCentroCusto;
-    }
-
-    public Despesas getIdDespesa() {
-        return idDespesa;
-    }
-
-    public void setIdDespesa(Despesas idDespesa) {
-        this.idDespesa = idDespesa;
-    }
-
-    public Fornecedor getIdFornecedor() {
-        return idFornecedor;
-    }
-
-    public void setIdFornecedor(Fornecedor idFornecedor) {
-        this.idFornecedor = idFornecedor;
     }
 
     public Orcamento getIdOrcamento() {

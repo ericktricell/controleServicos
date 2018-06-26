@@ -8,7 +8,9 @@ package com.tricell.repository;
 import com.tricell.jpautil.HibernateUtil;
 import com.tricell.model.Cliente;
 import com.tricell.model.Empresa;
+import com.tricell.model.Fornecedor;
 import com.tricell.model.Item;
+import com.tricell.model.Orcamento;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Session;
@@ -70,6 +72,50 @@ public class OrcamentoController implements Serializable{
         Session sessao = HibernateUtil.getSessionfactory().openSession();
         try{ 
             return sessao.createCriteria(Item.class).list();
+        }catch(Exception e){
+            return null;
+        }finally{
+            sessao.close();
+        }
+    }
+    
+    public List<Orcamento> findOrcamento(){
+        Session sessao = HibernateUtil.getSessionfactory().openSession();
+        try{ 
+            return sessao.createCriteria(Orcamento.class).list();
+        }catch(Exception e){
+            return null;
+        }finally{
+            sessao.close();
+        }
+    }
+    
+    public Orcamento findOrcamento(String idOrcamento){
+        Session sessao = HibernateUtil.getSessionfactory().openSession();
+        try{ 
+            return (Orcamento) sessao.createCriteria(Orcamento.class).add(Restrictions.eq("idOrcamento", idOrcamento)).uniqueResult();
+        }catch(Exception e){
+            return null;
+        }finally{
+            sessao.close();
+        }
+    }
+    
+    public List<Fornecedor> findFornecedor(){
+        Session sessao = HibernateUtil.getSessionfactory().openSession();
+        try{ 
+            return sessao.createCriteria(Fornecedor.class).list();
+        }catch(Exception e){
+            return null;
+        }finally{
+            sessao.close();
+        }
+    }
+    
+    public Fornecedor findFornecedor(Long idFornecedor){
+        Session sessao = HibernateUtil.getSessionfactory().openSession();
+        try{ 
+            return (Fornecedor) sessao.createCriteria(Fornecedor.class).add(Restrictions.eq("idFornecedor", idFornecedor)).uniqueResult();
         }catch(Exception e){
             return null;
         }finally{

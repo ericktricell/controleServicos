@@ -67,6 +67,9 @@ public class Item implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
     private List<Itensorc> itensorcList;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDespesa")
+    private List<Despesas> despesasList;
+    
     public Item() {
     }
 
@@ -80,6 +83,14 @@ public class Item implements Serializable {
         this.tipo = tipo;
         this.un = un;
         this.vlrUnit = vlrUnit;
+    }
+
+    public List<Despesas> getDespesasList() {
+        return despesasList;
+    }
+
+    public void setDespesasList(List<Despesas> despesasList) {
+        this.despesasList = despesasList;
     }
 
     public Long getIdItem() {

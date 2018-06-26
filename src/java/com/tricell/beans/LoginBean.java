@@ -27,6 +27,10 @@ public class LoginBean implements Serializable {
             senha;
     private Usuario user = null;
 
+    public void iniciaHibernate(){
+        new LoginDAO().inicia();
+    }
+    
     public String valida() {
 
         if (login.equals("admin") && senha.equals("tricell")) {
@@ -54,6 +58,12 @@ public class LoginBean implements Serializable {
             return "/index?faces-redirect=true";
         }
         return "";
+    }
+
+    public String logoff() {
+            user = null;
+            return "/index?faces-redirect=true";
+        
     }
 
     public Usuario getUser() {

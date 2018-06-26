@@ -5,7 +5,7 @@
  */
 package com.tricell.converter;
 
-import com.tricell.model.Item;
+import com.tricell.model.Fornecedor;
 import com.tricell.repository.OrcamentoController;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -16,15 +16,15 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Eu
  */
-@FacesConverter(value = "ItemConverter")
-public class ItemConverter implements Converter{
+@FacesConverter(value = "FornecedorConverter")
+public class FornecedorConverter implements Converter{
 
     OrcamentoController controller = new OrcamentoController();
     
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
         try {
-            return controller.findItem(Long.parseLong(string));
+            return controller.findFornecedor(Long.parseLong(string));
         } catch (Exception e) {
             System.out.println("\n\ndado nao encontrado\t" + string + "\n\n");
             return null;
@@ -34,7 +34,7 @@ public class ItemConverter implements Converter{
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object o) {
         try{
-            return String.valueOf(((Item)o).getIdItem());
+            return String.valueOf(((Fornecedor)o).getIdFornecedor());
         }catch(Exception e){
             return "";
         }

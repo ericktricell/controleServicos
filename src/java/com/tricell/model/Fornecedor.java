@@ -96,9 +96,10 @@ public class Fornecedor implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "cidade")
     private String cidade;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFornecedor")
-    private List<Centrocusto> centrocustoList;
-
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDespesa")
+    private List<Despesas> despesasList;
+    
     public Fornecedor() {
     }
 
@@ -115,6 +116,14 @@ public class Fornecedor implements Serializable {
         this.cep = cep;
         this.bairro = bairro;
         this.cidade = cidade;
+    }
+
+    public List<Despesas> getDespesasList() {
+        return despesasList;
+    }
+
+    public void setDespesasList(List<Despesas> despesasList) {
+        this.despesasList = despesasList;
     }
 
     public Long getIdFornecedor() {
@@ -211,15 +220,6 @@ public class Fornecedor implements Serializable {
 
     public void setCidade(String cidade) {
         this.cidade = cidade;
-    }
-
-    @XmlTransient
-    public List<Centrocusto> getCentrocustoList() {
-        return centrocustoList;
-    }
-
-    public void setCentrocustoList(List<Centrocusto> centrocustoList) {
-        this.centrocustoList = centrocustoList;
     }
 
     @Override

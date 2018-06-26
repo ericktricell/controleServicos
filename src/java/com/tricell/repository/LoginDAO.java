@@ -36,4 +36,8 @@ public class LoginDAO implements Serializable{
         }
         return u;
     }
+    
+    public void inicia(){
+        Session s = HibernateUtil.getSessionfactory().openSession();
+    }
 }

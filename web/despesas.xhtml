@@ -8,79 +8,88 @@
 
     <ui:define name="conteudo">
         <f:metadata>
-            <f:viewAction action="#{despesaBean.getList()}"/>
             <f:viewAction action="#{loginBean.verificaUser()}"/>
+            <f:viewAction action="#{despesaBean.getList()}"/>
         </f:metadata>
         <p:layout>
             <p:layoutUnit position="west" resizable="false" size="650">
                 <h:form id="lista">
-                    <p:dataTable value="#{despesaBean.lsDespesas}" var="item" selectionMode="single" selection="#{despesaBean.despesas}" rowKey="#{item.idDespesa}"
-                                 emptyMessage="Não foram encontradas despesas no momento">
-                        <f:facet name="header">
+                        <p:dataTable value="#{despesaBean.lsDespesa}" var="item" selectionMode="single" selection="#{despesaBean.despesas}" rowKey="#{item.idDespesa}"
+                                     emptyMessage="Não há Despesas cadastradas">
+                            <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="Buscar:" />
                                 <p:inputText style="width:150px" placeholder="Entre com nome"/>
-                                <p:commandButton value="Novo" update="detalhes">
-                                    <f:ajax listener="#{despesaBean.novo()}" execute="@form" render="@form"/>
-                                </p:commandButton>
+                                <p:commandButton value="Novo" action="#{despesaBean.novo()}" update="detalhes"/>
                             </p:outputPanel>
-                        </f:facet>
-                        <f:ajax event="rowSelect" listener="#{despesaBean.onRowSelected(item.idDespesa)}" execute="@form" render="detalhes"/>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Descrição"/>
                             </f:facet>
-                            <h:outputText value="#{item.descricao}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Valor"/>
-                            </f:facet>
-                            <h:outputText value="R$ #{item.valor}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Vencimento"/>
-                            </f:facet>
-                            <h:outputText value="#{item.vencimento}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Data Pag."/>
-                            </f:facet>
-                            <h:outputText value="#{item.dataPagamento}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Pago"/>
-                            </f:facet>
-                            <h:selectBooleanCheckbox readonly="true" value="#{item.pago}"/>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Item"/>
+                                </f:facet>
+                                <h:outputText value="#{item.item.discriminacao}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="O.S."/>
+                                </f:facet>
+                                <h:outputText value="#{item.orcamento.numDoc}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fornecedor"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fornecedor.nomeFantasia}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Valor"/>
+                                </f:facet>
+                                <h:outputText value="R$ #{item.valor}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Quantidade"/>
+                                </f:facet>
+                                <h:outputText value="#{item.quantidade}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+
             </p:layoutUnit>
             <p:layoutUnit position="center">
                 <h:form id="detalhes">
-                    <p:panelGrid columns="2" styleClass="semBorda">
-                        <p:outputLabel value="Valor:" for="valor" />
-                        <p:inputText id="valor" class="js-moeda" value="#{despesaBean.despesas.valor}" title="Valor" required="true" requiredMessage="The Valor field is required."/>
-                        <p:outputLabel value="Vencimento:" for="vencimento" />
-                        <p:calendar locale="pt" id="vencimento" value="#{despesaBean.despesas.vencimento}" showOn="button"/>
-                        <p:outputLabel value="Descricao:" for="descricao" />
-                        <p:inputText id="descricao" value="#{despesaBean.despesas.descricao}" title="Descricao" required="true" requiredMessage="The Descricao field is required."/>
-                        <p:outputLabel value="Pago:" for="pago" />
-                        <p:selectBooleanCheckbox id="pago" value="#{despesaBean.despesas.pago}"/>
-                        <p:outputLabel value="Data Pag.:" for="dataPagamento" />
-                        <p:calendar locale="pt" id="dataPagamento" value="#{despesaBean.despesas.dataPagamento}" showOn="button" />
-                    </p:panelGrid>
+                        <p:panelGrid columns="2" styleClass="semBorda">
+                            <p:outputLabel value="Orçamento:" for="orcamento" />
+                            <p:selectOneMenu id="orcamento" value="#{despesaBean.despesas.orcamento}" converter="OrcamentoConverter" required="true" requiredMessage="The Orcamento field is required."
+                                             filter="true" filterMatchMode="startsWith" effect="fade">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                                <f:selectItems value="#{despesaBean.lsOrcamento}" var="orc" itemLabel="#{orc.numDoc}" itemValue="#{orc}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Item:" for="item" />
+                            <p:selectOneMenu id="item" value="#{despesaBean.despesas.item}" converter="ItemConverter" required="true" requiredMessage="The Item field is required."
+                                             filter="true" filterMatchMode="startsWith" effect="fade">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                                <f:selectItems value="#{despesaBean.lsItem}" var="it" itemLabel="#{it.discriminacao}" itemValue="#{it}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Fornecedor:" for="fornecedor" />
+                            <p:selectOneMenu id="fornecedor" value="#{despesaBean.despesas.fornecedor}" converter="FornecedorConverter" required="true" requiredMessage="The Fornecedor field is required."
+                                             filter="true" filterMatchMode="startsWith" effect="fade">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                                <f:selectItems value="#{despesaBean.lsFornecedor}" var="forn" itemLabel="#{forn.nomeFantasia}" itemValue="#{forn}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Valor:" for="valor" />
+                            <p:inputText id="valor" value="#{despesaBean.despesas.valor}" title="Valor" required="true" requiredMessage="The Valor field is required."/>
+                            <p:outputLabel value="Quantidade:" for="quantidade" />
+                            <p:inputText id="quantidade" value="#{despesaBean.despesas.quantidade}" title="Quantidade" />
+                        </p:panelGrid>
                     <p:commandButton value="Salvar" action="#{despesaBean.save()}" update="lista"/>
-                </h:form>
+                    </h:form>
+
             </p:layoutUnit>
         </p:layout>
-
     </ui:define>
 </ui:composition>

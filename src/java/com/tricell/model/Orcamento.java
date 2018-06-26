@@ -83,17 +83,25 @@ public class Orcamento implements Serializable {
     @ManyToOne(optional = false)
     private Usuario idUsuario;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrcamento")
-    private List<Centrocusto> centrocustoList;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orcamento")
     private List<Itensorc> itensorcList;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orcamento")
+    private List<Despesas> despesasList;
+    
     public Orcamento() {
     }
 
     public Orcamento(String idOrcamento) {
         this.idOrcamento = idOrcamento;
+    }
+
+    public List<Despesas> getDespesasList() {
+        return despesasList;
+    }
+
+    public void setDespesasList(List<Despesas> despesasList) {
+        this.despesasList = despesasList;
     }
 
     public String getIdOrcamento() {
@@ -174,15 +182,6 @@ public class Orcamento implements Serializable {
 
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    @XmlTransient
-    public List<Centrocusto> getCentrocustoList() {
-        return centrocustoList;
-    }
-
-    public void setCentrocustoList(List<Centrocusto> centrocustoList) {
-        this.centrocustoList = centrocustoList;
     }
 
     @XmlTransient
