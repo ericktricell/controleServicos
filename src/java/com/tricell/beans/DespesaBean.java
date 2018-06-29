@@ -31,6 +31,7 @@ public class DespesaBean implements Crud,Serializable{
     private List<Despesas> lsDespesa = new ArrayList<>();
     private DaoGeneric<Despesas> dao = new DaoGeneric();
     private List<Item> lsItem = new ArrayList<>();
+    private List<Item> filteredItem = new ArrayList<>();
     private List<Orcamento> lsOrcamento = new ArrayList<>();
     private List<Fornecedor> lsFornecedor = new ArrayList<>();
     private OrcamentoController controller = new OrcamentoController();
@@ -75,9 +76,18 @@ public class DespesaBean implements Crud,Serializable{
         this.lsFornecedor = lsFornecedor;
     }
 
+    public List<Item> getFilteredItem() {
+        return filteredItem;
+    }
+
+    public void setFilteredItem(List<Item> filteredItem) {
+        this.filteredItem = filteredItem;
+    }
+
     @Override
     public void save() {
         dao.savemerge(despesas);
+        this.getList();
     }
 
     @Override

@@ -59,7 +59,7 @@
                             <p:outputLabel value="Uf:" for="uf" />
                             <p:inputText id="uf" value="#{clienteBean.cliente.uf}" title="Uf" />
                         </p:panelGrid>
-                    <p:commandButton action="#{clienteBean.save()}" value="Salvar" update="lista"/>
+                    <p:commandButton action="#{clienteBean.save()}" value="Salvar" ajax="true" update="lista"/>
                     </h:form>
 
             </p:layoutUnit>

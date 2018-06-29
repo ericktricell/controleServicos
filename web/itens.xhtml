@@ -15,7 +15,7 @@
             <p:layoutUnit position="west" resizable="false" size="650">
                 <h:form id="lista">
                         <p:dataTable value="#{itemBean.lsItens}" var="item" selectionMode="single"
-                                 selection="#{itemBean.item}" rowKey="#{item.idItem}" emptyMessage="Não há itens registrados">
+                                 selection="#{itemBean.itemS}" rowKey="#{item.idItem}" emptyMessage="Não há itens registrados">
                         <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="Buscar:" />
@@ -54,22 +54,23 @@
 
             <p:layoutUnit position="center">
                 <h:form id="detalhes">
-                    <p:panelGrid columns="2" styleClass="semBorda">
-                        <p:outputLabel value="Discriminacao:" for="discriminacao" />
-                        <p:inputText id="discriminacao" value="#{itemBean.item.discriminacao}" title="Discriminacao" required="true" requiredMessage="The Discriminacao field is required."/>
-                        <p:outputLabel value="Tipo:" for="tipo" />
-                        <p:selectOneMenu id="tipo" value="#{itemBean.item.tipo}" title="Tipo" required="true" requiredMessage="The Tipo field is required.">
-                            <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
-                            <f:selectItem itemLabel="Serviço" itemValue="Serviço"/>
-                            <f:selectItem itemLabel="Material" itemValue="Material"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Un:" for="un" />
-                        <p:inputText id="un" value="#{itemBean.item.un}" title="Un" required="true" requiredMessage="The Un field is required."/>
-                        <p:outputLabel value="VlrUnit:" for="vlrUnit" />
-                        <p:inputText id="vlrUnit" class="js-moeda" value="#{itemBean.item.vlrUnit}" title="VlrUnit" required="true" requiredMessage="The VlrUnit field is required."/>
-                    </p:panelGrid>
-                    <p:commandButton value="Salvar" action="#{itemBean.save()}" update="lista"/>
-                </h:form>
+                        <p:panelGrid columns="2">
+                                <p:outputLabel value="Discriminacao:" for="discriminacao" />
+                            <p:inputText id="discriminacao" value="#{itemBean.itemS.discriminacao}" title="Discriminacao" required="true" requiredMessage="The Discriminacao field is required."/>
+                            <p:outputLabel value="Tipo:" for="tipo" />
+                            <p:selectOneMenu id="tipo" value="#{itemBean.itemS.tipo}" required="true" requiredMessage="The Tipo field is required.">
+                                <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                                <f:selectItem itemValue="Serviço" itemLabel="Serviço"/>
+                                <f:selectItem itemValue="Material" itemLabel="Material"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Un:" for="un" />
+                            <p:inputText id="un" value="#{itemBean.itemS.un}" title="Un" required="true" requiredMessage="The Un field is required."/>
+                            <p:outputLabel value="VlrUnit:" for="vlrUnit" />
+                            <p:inputText id="vlrUnit" class="js-moeda" value="#{itemBean.itemS.vlrUnit}" title="VlrUnit" required="true" requiredMessage="The VlrUnit field is required."/>
+                        </p:panelGrid>
+                        <p:commandButton action="#{itemBean.save()}" value="Salvar" ajax="true" update="lista"/>
+                    </h:form>
+               
             </p:layoutUnit>
         </p:layout>
     </ui:define>

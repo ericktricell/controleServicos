@@ -5,6 +5,7 @@
  */
 package com.tricell.beans;
 
+import com.tricell.beans.acesso.Permissao;
 import com.tricell.model.Usuario;
 import com.tricell.repository.LoginDAO;
 import java.io.Serializable;
@@ -27,10 +28,10 @@ public class LoginBean implements Serializable {
             senha;
     private Usuario user = null;
 
-    public void iniciaHibernate(){
+    public void iniciaHibernate() {
         new LoginDAO().inicia();
     }
-    
+
     public String valida() {
 
         if (login.equals("admin") && senha.equals("tricell")) {
@@ -45,7 +46,11 @@ public class LoginBean implements Serializable {
                 ExternalContext externalContext = context.getExternalContext();
                 externalContext.getSessionMap().put("usuarioLogado", user);
 
-                return "/inicio?faces-redirect=true";
+                if (user.getTipoUser().equals(Permissao.ADMIN.getValor())) {
+                    return "/inicio?faces-redirect=true";
+                }else if (user.getTipoUser().equals(Permissao.USER.getValor())){
+                            return "user-acesso/inicio?faces-redirect=true";
+                }
             }
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Falha", "Login ou senha inválidos"));
@@ -61,9 +66,9 @@ public class LoginBean implements Serializable {
     }
 
     public String logoff() {
-            user = null;
-            return "/index?faces-redirect=true";
-        
+        user = null;
+        return "/index?faces-redirect=true";
+
     }
 
     public Usuario getUser() {

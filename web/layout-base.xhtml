@@ -34,6 +34,8 @@ and open the template in the editor.
                                 <f:setPropertyActionListener value="#{loginBean.user}" target="#{orcamentoBeans.usuarioLogado}"/>
                             </p:menuitem>
                             <p:separator />
+                            <p:menuitem value="Aprovação" action="#{menu.aprovacao()}" icon="ui-icon-check"/>
+                            <p:separator />
                             <p:menuitem value="Fechamento" url="#" icon="ui-icon-arrowreturnthick-1-s"/>
                         </p:submenu>
                         <p:separator />

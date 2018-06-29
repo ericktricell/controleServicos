@@ -16,6 +16,7 @@ import java.util.Objects;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 /**
@@ -26,6 +27,7 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class UsuarioBean implements Crud, Serializable{
 
+    private static final long serialVersionUID = 1L;
     private Usuario usuario = new Usuario();
     private List<Usuario> lsUsuario = new ArrayList<>();
     private List<Usuario> filterUsuario;
@@ -36,7 +38,7 @@ public class UsuarioBean implements Crud, Serializable{
         controller.savemerge(usuario);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Sucesso", "Usuário cadastrado"));
-        
+        this.getList();
     }
 
     @Override
@@ -61,6 +63,12 @@ public class UsuarioBean implements Crud, Serializable{
         return "";
     }
 
+    public void recebeUsuario(){
+        FacesContext context = FacesContext.getCurrentInstance();
+                ExternalContext externalContext = context.getExternalContext();
+                usuario = (Usuario) externalContext.getSessionMap().get("usuarioLogado");
+    }
+    
     public List<Usuario> getFilterUsuario() {
         return filterUsuario;
     }

@@ -48,30 +48,50 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "idUsuario")
     private Long idUsuario;
+    
     @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="E-mail inválido")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 50)
     @Column(name = "email")
     private String email;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "login")
     private String login;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "nome")
     private String nome;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 300)
     @Column(name = "senha")
     private String senha;
+    
     @Size(max = 20)
     @Column(name = "telefone")
     private String telefone;
+    
+    @Column(name = "tipoUser")
+    private String tipoUser;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private List<FechamentoOs> fechamentoOsList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Orcamento> orcamentoList;
+
+    public List<FechamentoOs> getFechamentoOsList() {
+        return fechamentoOsList;
+    }
+
+    public void setFechamentoOsList(List<FechamentoOs> fechamentoOsList) {
+        this.fechamentoOsList = fechamentoOsList;
+    }
 
     public Usuario() {
     }
@@ -85,6 +105,14 @@ public class Usuario implements Serializable {
         this.login = login;
         this.nome = nome;
         this.senha = senha;
+    }
+
+    public String getTipoUser() {
+        return tipoUser;
+    }
+
+    public void setTipoUser(String tipoUser) {
+        this.tipoUser = tipoUser;
     }
 
     public Long getIdUsuario() {

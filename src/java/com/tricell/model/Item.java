@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -63,13 +64,12 @@ public class Item implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "vlrUnit")
-    private Double vlrUnit;
+    private double vlrUnit;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idItem")
+    private Despesas despesas;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
     private List<Itensorc> itensorcList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDespesa")
-    private List<Despesas> despesasList;
-    
     public Item() {
     }
 
@@ -83,14 +83,6 @@ public class Item implements Serializable {
         this.tipo = tipo;
         this.un = un;
         this.vlrUnit = vlrUnit;
-    }
-
-    public List<Despesas> getDespesasList() {
-        return despesasList;
-    }
-
-    public void setDespesasList(List<Despesas> despesasList) {
-        this.despesasList = despesasList;
     }
 
     public Long getIdItem() {
@@ -125,13 +117,6 @@ public class Item implements Serializable {
         this.un = un;
     }
 
-    public Double getVlrUnit() {
-        return vlrUnit;
-    }
-
-    public void setVlrUnit(Double vlrUnit) {
-        this.vlrUnit = vlrUnit;
-    }
 
     @XmlTransient
     public List<Itensorc> getItensorcList() {
@@ -165,6 +150,22 @@ public class Item implements Serializable {
     @Override
     public String toString() {
         return "com.tricell.model.Item[ idItem=" + idItem + " ]";
+    }
+
+    public double getVlrUnit() {
+        return vlrUnit;
+    }
+
+    public void setVlrUnit(double vlrUnit) {
+        this.vlrUnit = vlrUnit;
+    }
+
+    public Despesas getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas(Despesas despesas) {
+        this.despesas = despesas;
     }
     
 }

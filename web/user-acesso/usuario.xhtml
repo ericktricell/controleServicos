@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{usuarioBean.recebeUsuario()}"/>
+            <f:viewAction action="#{loginBean.verificaUser()}"/>
+        </f:metadata>
+
+        <p:layout>
+            <p:layoutUnit position="west" resizable="false" size="600">
+
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center" >
+                <h:form id="detalhes" styleClass="semBorda">
+                    <p:growl id="growl" showDetail="true" sticky="true" />
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Nome:" for="nome" />
+                        <p:inputText id="nome" value="#{usuarioBean.usuario.nome}" title="Nome" required="true" requiredMessage="The Nome field is required."/>
+                        <p:outputLabel value="Login:" for="login" />
+                        <p:inputText id="login" value="#{usuarioBean.usuario.login}" title="Login" required="true" requiredMessage="The Login field is required."/>
+                        <p:outputLabel value="Senha:" for="senha" />
+                        <p:password id="senha" value="#{usuarioBean.usuario.senha}" title="Senha" required="true" requiredMessage="The Senha field is required."/>
+                        <p:outputLabel value="Telefone:" for="telefone" />
+                        <p:inputText id="telefone" value="#{usuarioBean.usuario.telefone}" title="Telefone" />
+                        <p:outputLabel value="Email:" for="email" />
+                        <p:inputText id="email" value="#{usuarioBean.usuario.email}" title="Email" />
+                        <p:outputLabel value="Tipo de Usuário" for="tipo"/>
+                        <p:selectOneMenu id="tipo" value="#{usuarioBean.usuario.tipoUser}">
+                            <f:selectItem itemLabel="Usuário padrão" itemValue="USER"/>
+                            <f:selectItem itemLabel="Financeiro Acessar" itemValue="FINANCEIRO_ACESSAR"/>
+                            <f:selectItem itemLabel="Administrador" itemValue="ADMIN"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioBean.save}" value="Salvar"/>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </ui:define>
+
+</ui:composition>

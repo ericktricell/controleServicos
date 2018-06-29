@@ -33,24 +33,40 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Fornecedor.findAll", query = "SELECT f FROM Fornecedor f")
     , @NamedQuery(name = "Fornecedor.findByIdFornecedor", query = "SELECT f FROM Fornecedor f WHERE f.idFornecedor = :idFornecedor")
+    , @NamedQuery(name = "Fornecedor.findByBairro", query = "SELECT f FROM Fornecedor f WHERE f.bairro = :bairro")
+    , @NamedQuery(name = "Fornecedor.findByCep", query = "SELECT f FROM Fornecedor f WHERE f.cep = :cep")
+    , @NamedQuery(name = "Fornecedor.findByCidade", query = "SELECT f FROM Fornecedor f WHERE f.cidade = :cidade")
     , @NamedQuery(name = "Fornecedor.findByCnpjCpf", query = "SELECT f FROM Fornecedor f WHERE f.cnpjCpf = :cnpjCpf")
     , @NamedQuery(name = "Fornecedor.findByInativo", query = "SELECT f FROM Fornecedor f WHERE f.inativo = :inativo")
     , @NamedQuery(name = "Fornecedor.findByInscricaoEstadual", query = "SELECT f FROM Fornecedor f WHERE f.inscricaoEstadual = :inscricaoEstadual")
-    , @NamedQuery(name = "Fornecedor.findByNomeFantasia", query = "SELECT f FROM Fornecedor f WHERE f.nomeFantasia = :nomeFantasia")
-    , @NamedQuery(name = "Fornecedor.findByRazaoSocial", query = "SELECT f FROM Fornecedor f WHERE f.razaoSocial = :razaoSocial")
-    , @NamedQuery(name = "Fornecedor.findBySite", query = "SELECT f FROM Fornecedor f WHERE f.site = :site")
-    , @NamedQuery(name = "Fornecedor.findByNum", query = "SELECT f FROM Fornecedor f WHERE f.num = :num")
     , @NamedQuery(name = "Fornecedor.findByLogradouro", query = "SELECT f FROM Fornecedor f WHERE f.logradouro = :logradouro")
-    , @NamedQuery(name = "Fornecedor.findByCep", query = "SELECT f FROM Fornecedor f WHERE f.cep = :cep")
-    , @NamedQuery(name = "Fornecedor.findByBairro", query = "SELECT f FROM Fornecedor f WHERE f.bairro = :bairro")
-    , @NamedQuery(name = "Fornecedor.findByCidade", query = "SELECT f FROM Fornecedor f WHERE f.cidade = :cidade")})
+    , @NamedQuery(name = "Fornecedor.findByNomeFantasia", query = "SELECT f FROM Fornecedor f WHERE f.nomeFantasia = :nomeFantasia")
+    , @NamedQuery(name = "Fornecedor.findByNum", query = "SELECT f FROM Fornecedor f WHERE f.num = :num")
+    , @NamedQuery(name = "Fornecedor.findByRazaoSocial", query = "SELECT f FROM Fornecedor f WHERE f.razaoSocial = :razaoSocial")
+    , @NamedQuery(name = "Fornecedor.findBySite", query = "SELECT f FROM Fornecedor f WHERE f.site = :site")})
 public class Fornecedor implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "idFornecedor")
     private Long idFornecedor;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "bairro")
+    private String bairro;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "cep")
+    private String cep;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "cidade")
+    private String cidade;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -61,9 +77,18 @@ public class Fornecedor implements Serializable {
     @Size(max = 255)
     @Column(name = "inscricaoEstadual")
     private String inscricaoEstadual;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "logradouro")
+    private String logradouro;
     @Size(max = 255)
     @Column(name = "nomeFantasia")
     private String nomeFantasia;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "num")
+    private int num;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -72,34 +97,9 @@ public class Fornecedor implements Serializable {
     @Size(max = 255)
     @Column(name = "site")
     private String site;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "num")
-    private Integer num;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 80)
-    @Column(name = "logradouro")
-    private String logradouro;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "cep")
-    private String cep;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "bairro")
-    private String bairro;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "cidade")
-    private String cidade;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDespesa")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFornecedor")
     private List<Despesas> despesasList;
-    
+
     public Fornecedor() {
     }
 
@@ -107,23 +107,15 @@ public class Fornecedor implements Serializable {
         this.idFornecedor = idFornecedor;
     }
 
-    public Fornecedor(Long idFornecedor, String cnpjCpf, String razaoSocial, int num, String logradouro, String cep, String bairro, String cidade) {
+    public Fornecedor(Long idFornecedor, String bairro, String cep, String cidade, String cnpjCpf, String logradouro, int num, String razaoSocial) {
         this.idFornecedor = idFornecedor;
-        this.cnpjCpf = cnpjCpf;
-        this.razaoSocial = razaoSocial;
-        this.num = num;
-        this.logradouro = logradouro;
-        this.cep = cep;
         this.bairro = bairro;
+        this.cep = cep;
         this.cidade = cidade;
-    }
-
-    public List<Despesas> getDespesasList() {
-        return despesasList;
-    }
-
-    public void setDespesasList(List<Despesas> despesasList) {
-        this.despesasList = despesasList;
+        this.cnpjCpf = cnpjCpf;
+        this.logradouro = logradouro;
+        this.num = num;
+        this.razaoSocial = razaoSocial;
     }
 
     public Long getIdFornecedor() {
@@ -132,6 +124,30 @@ public class Fornecedor implements Serializable {
 
     public void setIdFornecedor(Long idFornecedor) {
         this.idFornecedor = idFornecedor;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
     public String getCnpjCpf() {
@@ -158,12 +174,28 @@ public class Fornecedor implements Serializable {
         this.inscricaoEstadual = inscricaoEstadual;
     }
 
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
     public String getNomeFantasia() {
         return nomeFantasia;
     }
 
     public void setNomeFantasia(String nomeFantasia) {
         this.nomeFantasia = nomeFantasia;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public String getRazaoSocial() {
@@ -182,44 +214,13 @@ public class Fornecedor implements Serializable {
         this.site = site;
     }
 
-    public Integer getNum() {
-        return num;
+    @XmlTransient
+    public List<Despesas> getDespesasList() {
+        return despesasList;
     }
 
-    public void setNum(Integer num) {
-        this.num = num;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setDespesasList(List<Despesas> despesasList) {
+        this.despesasList = despesasList;
     }
 
     @Override

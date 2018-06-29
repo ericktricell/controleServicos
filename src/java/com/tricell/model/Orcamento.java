@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -44,6 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Orcamento.findByPrazoEnt", query = "SELECT o FROM Orcamento o WHERE o.prazoEnt = :prazoEnt")
     , @NamedQuery(name = "Orcamento.findByVlrTotal", query = "SELECT o FROM Orcamento o WHERE o.vlrTotal = :vlrTotal")})
 public class Orcamento implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrcamento")
+    private List<Centrocusto> centrocustoList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -83,11 +87,22 @@ public class Orcamento implements Serializable {
     @ManyToOne(optional = false)
     private Usuario idUsuario;
     
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idOrcamento")
+    private FechamentoOs fechamentoOs;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orcamento")
     private List<Itensorc> itensorcList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orcamento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrcamento")
     private List<Despesas> despesasList;
+
+    public FechamentoOs getFechamentoOs() {
+        return fechamentoOs;
+    }
+
+    public void setFechamentoOs(FechamentoOs fechamentoOs) {
+        this.fechamentoOs = fechamentoOs;
+    }
     
     public Orcamento() {
     }
@@ -216,6 +231,15 @@ public class Orcamento implements Serializable {
     @Override
     public String toString() {
         return "com.tricell.model.Orcamento[ idOrcamento=" + idOrcamento + " ]";
+    }
+
+    @XmlTransient
+    public List<Centrocusto> getCentrocustoList() {
+        return centrocustoList;
+    }
+
+    public void setCentrocustoList(List<Centrocusto> centrocustoList) {
+        this.centrocustoList = centrocustoList;
     }
     
 }

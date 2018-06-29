@@ -25,14 +25,14 @@ public class EmpresaBean implements Serializable{
     
     public void salvar(){
         con.savemerge(empresa);
-        
     }
     
     public void empresaSalva(){
         this.empresa = con.getEntidade(Empresa.class);
-        
+        if(empresa == null)
+            empresa = new Empresa();
     }
-    
+
     public Empresa getEmpresa() {
         return empresa;
     }
@@ -40,5 +40,5 @@ public class EmpresaBean implements Serializable{
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
-
+    
 }

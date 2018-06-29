@@ -24,6 +24,7 @@ public class ItemConverter implements Converter{
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
         try {
+            System.out.println("\n\nprocurado\t" + string + "\n\n");
             return controller.findItem(Long.parseLong(string));
         } catch (Exception e) {
             System.out.println("\n\ndado nao encontrado\t" + string + "\n\n");

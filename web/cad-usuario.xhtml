@@ -33,6 +33,12 @@
                         <p:inputText id="telefone" value="#{usuarioBean.usuario.telefone}" title="Telefone" />
                         <p:outputLabel value="Email:" for="email" />
                         <p:inputText id="email" value="#{usuarioBean.usuario.email}" title="Email" />
+                        <p:outputLabel value="Tipo de Usuário" for="tipo"/>
+                        <p:selectOneMenu id="tipo" value="#{usuarioBean.usuario.tipoUser}">
+                            <f:selectItem itemLabel="Usuário padrão" itemValue="USER"/>
+                            <f:selectItem itemLabel="Financeiro Acessar" itemValue="FINANCEIRO_ACESSAR"/>
+                            <f:selectItem itemLabel="Administrador" itemValue="ADMIN"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{usuarioBean.save}" value="Salvar" update="growl"/>
                 </h:form>

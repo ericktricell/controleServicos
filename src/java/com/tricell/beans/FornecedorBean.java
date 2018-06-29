@@ -30,7 +30,7 @@ public class FornecedorBean implements Crud, Serializable{
     @Override
     public void save() {
         dao.savemerge(fornecedor);
-        
+        this.getList();
     }
 
     @Override

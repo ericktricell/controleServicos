@@ -31,7 +31,7 @@ public class ClienteBean implements Crud, Serializable{
     @Override
     public void save(){
         dao.savemerge(cliente);
-        
+        this.getList();
     }
     
     @Override

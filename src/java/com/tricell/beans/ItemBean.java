@@ -6,7 +6,6 @@
 package com.tricell.beans;
 
 import com.tricell.interfac.crud.Crud;
-import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Item;
 import com.tricell.repository.DaoGeneric;
 import java.io.Serializable;
@@ -24,10 +23,16 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class ItemBean implements Crud, Serializable{
     
-    private Item item = new Item();
+    private Item itemS = new Item();
     private List<Item> lsItens = new ArrayList<>();
     private DaoGeneric<Item> dao = new DaoGeneric<>();
     private String name;
+
+    public ItemBean() {
+        itemS = new Item();
+    }
+    
+    
     
     @Override
     public void getList(){
@@ -36,8 +41,8 @@ public class ItemBean implements Crud, Serializable{
     
     @Override
     public void save(){
-        dao.savemerge(item);
-        
+        dao.savemerge(itemS);
+        this.getList();
     }
     
 
@@ -48,7 +53,7 @@ public class ItemBean implements Crud, Serializable{
     
     @Override
     public void novo(){
-        item = new Item();
+        itemS = new Item();
         
     }
 
@@ -56,7 +61,7 @@ public class ItemBean implements Crud, Serializable{
     public String onRowSelected(Long id) {
         for (int i = 0; i < lsItens.size(); i++) {
             if (Objects.equals(lsItens.get(i).getIdItem(), id)) {
-                item = lsItens.get(i);
+                itemS = lsItens.get(i);
                 break;
             }
         }
@@ -70,13 +75,13 @@ public class ItemBean implements Crud, Serializable{
     public void setName(String name) {
         this.name = name;
     }
-    
-    public Item getItem() {
-        return item;
+
+    public Item getItemS() {
+        return itemS;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItemS(Item itemS) {
+        this.itemS = itemS;
     }
 
     public List<Item> getLsItens() {
