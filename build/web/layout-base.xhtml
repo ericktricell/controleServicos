@@ -36,7 +36,11 @@ and open the template in the editor.
                             <p:separator />
                             <p:menuitem value="Aprovação" action="#{menu.aprovacao()}" icon="ui-icon-check"/>
                             <p:separator />
-                            <p:menuitem value="Fechamento" url="#" icon="ui-icon-arrowreturnthick-1-s"/>
+                            <p:menuitem value="Designacao" action="#{menu.designacao()}" icon="ui-icon-notice"/>
+                            <p:separator />
+                            <p:menuitem value="Fechamento" action="#{menu.fechamento()}" icon="ui-icon-arrowreturnthick-1-s">
+                                <f:setPropertyActionListener value="#{loginBean.user}" target="#{fechamentoBean.fechamentoOs.idUsuario}"/>
+                            </p:menuitem>
                         </p:submenu>
                         <p:separator />
                         <p:menuitem value="Despesas" action="#{menu.despesas()}" icon="ui-icon-tag"/>

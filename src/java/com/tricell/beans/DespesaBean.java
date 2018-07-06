@@ -10,6 +10,7 @@ import com.tricell.model.Despesas;
 import com.tricell.model.Fornecedor;
 import com.tricell.model.Item;
 import com.tricell.model.Orcamento;
+import com.tricell.model.Usuario;
 import com.tricell.repository.DaoGeneric;
 import com.tricell.repository.OrcamentoController;
 import java.io.Serializable;
@@ -35,6 +36,16 @@ public class DespesaBean implements Crud,Serializable{
     private List<Orcamento> lsOrcamento = new ArrayList<>();
     private List<Fornecedor> lsFornecedor = new ArrayList<>();
     private OrcamentoController controller = new OrcamentoController();
+    private Usuario user;
+    private Double tot;
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
+    }
 
     public Despesas getDespesas() {
         return despesas;
@@ -84,8 +95,25 @@ public class DespesaBean implements Crud,Serializable{
         this.filteredItem = filteredItem;
     }
 
+    public Double getTot() {
+        return tot;
+    }
+
+    public void setTot(Double tot) {
+        this.tot = tot;
+    }
+
+    public void calculaTotal(){
+        tot = despesas.getIdItem().getVlrCusto() * despesas.getQuantidade();
+    }
+    
+    public void pegaCusto(){
+        despesas.setValor(despesas.getIdItem().getVlrCusto());
+    }
+    
     @Override
     public void save() {
+        this.pegaCusto();
         dao.savemerge(despesas);
         this.getList();
     }
@@ -105,7 +133,10 @@ public class DespesaBean implements Crud,Serializable{
 
     @Override
     public void getListFilter() {
-        
+        lsDespesa = dao.getListEntity(Despesas.class);
+        lsItem = controller.findItens();
+        lsOrcamento = controller.findOrcamento(user.getIdUsuario());
+        lsFornecedor = controller.findFornecedor();
     }
 
     @Override

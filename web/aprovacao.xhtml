@@ -9,20 +9,17 @@
     <ui:define name="conteudo">
         <f:metadata>
             <f:viewAction action="#{loginBean.verificaUser()}"/>
+            <f:viewAction action="#{orcamentoBeans.getListFilter()}"/>
         </f:metadata>
-        <p:layout>
-            <p:layoutUnit position="west" resizable="false" size="650">
-                <h:form>
+        <h:form id="aprovTable">
                     <p:dataTable value="#{orcamentoBeans.lsOrcamento}" var="item" selectionMode="single"
-                                 selection="#{orcamentoBeans.orcamento}" rowKey="#{item.idOrcamento}" emptyMessage="Não há itens registrados">
+                                 selection="#{orcamentoBeans.orcamento}" rowKey="#{item.idOrcamento}" emptyMessage="Não há itens com aprovação pendente">
                         <f:facet name="header">
                             <p:outputPanel>
-                                <h:outputText value="Buscar:" />
-                                <p:inputText id="globalFilter" style="width:150px" placeholder="Entre com nome"/>
+                                <h:outputText value="Ordens de Serviço para aprovação" />
                             </p:outputPanel>
                         </f:facet>
-                        <f:ajax event="rowSelect" listener="#{orcamentoBeans.onRowSelected(item.idOrcamento)}" execute="@form" render="detalhes"/>
-                        <p:column>
+                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="NumDoc"/>
                             </f:facet>
@@ -38,7 +35,9 @@
                             <f:facet name="header">
                                 <h:outputText value="VlrTotal"/>
                             </f:facet>
-                            <h:outputText value="#{item.vlrTotal}"/>
+                            <h:outputText value="#{item.vlrTotal}">
+                                <f:convertNumber currencySymbol="R$" type="currency"/>
+                            </h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -60,12 +59,14 @@
                             </f:facet>
                             <h:outputText value="#{item.prazoEnt}"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Aprov."/>
+                            </f:facet>
+                            <p:commandButton action="#{orcamentoBeans.aprov(item)}" icon="ui-icon-check" ajax="true" update="aprovTable"/>
+                        </p:column>
                     </p:dataTable>
                 </h:form>
-            </p:layoutUnit>
-            <p:layoutUnit position="center">
-
-            </p:layoutUnit>
-        </p:layout>
+            
     </ui:define>
 </ui:composition>

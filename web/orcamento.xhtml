@@ -20,7 +20,8 @@
                             <h:outputText value="Num. Documento:"/>
                             <p:inputText value="#{orcamentoBeans.orcamento.numDoc}"/>
                             <h:outputText value="Cliente:"/>
-                            <p:selectOneMenu value="#{orcamentoBeans.orcamento.idCliente}" converter="ClienteConverter" required="true" requiredMessage="Selecione um cliente">
+                            <p:selectOneMenu value="#{orcamentoBeans.orcamento.idCliente}" converter="ClienteConverter" required="true" requiredMessage="Selecione um cliente"
+                                             filter="true" filterMatchMode="startsWith" effect="fade">
                                 <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
                                 <f:selectItems value="#{orcamentoBeans.lsCli}" var="cliente" itemValue="#{cliente}" itemLabel="#{cliente.nome}"/>
                             </p:selectOneMenu>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{loginBean.verificaUser()}"/>
+            <f:viewAction action="#{fechamentoBean.getList()}"/>
+        </f:metadata>
+        <p:layout>
+            <p:layoutUnit position="west" resizable="false" size="650">
+                <h:form id="fechamentoTable">
+                        <p:dataTable value="#{fechamentoBean.lsFechamento}" var="item" selectionMode="single" selection="#{fechamentoBean.fechamentoOs}" rowKey="#{item.idFechamento}"
+                                     emptyMessage="Não ordens de serviço fechadas">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Data Fechamento"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dataFechamento}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Ordem de Serviço"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idOrcamento.numDoc}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Responsável"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idUsuario.nome}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <h:form id="detalhes">
+                   <p:panelGrid columns="2" styleClass="semBorda">
+                            <p:outputLabel value="Responsável:" for="idUsuario" />
+                            <p:inputText id="idUsuario" value="#{fechamentoBean.fechamentoOs.idUsuario.nome}" />
+                            <p:outputLabel value="Data Fechamento:" for="dataFechamento" />
+                            <p:calendar locale="pt" showOn="button" id="dataFechamento" value="#{fechamentoBean.fechamentoOs.dataFechamento}" title="DataFechamento" required="true" requiredMessage="The DataFechamento field is required."/> 
+                            <p:outputLabel value="Orcamento:" for="idOrcamento" />
+                            <p:selectOneMenu id="idOrcamento" value="#{fechamentoBean.fechamentoOs.idOrcamento}" converter="OrcamentoConverter" required="true" requiredMessage="The IdOrcamento field is required.">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{fechamentoBean.lsOrcamento}" var="orc" itemLabel="#{orc.numDoc} - #{orc.idCliente.nome}" itemValue="#{orc}"/>
+                                <p:ajax listener="#{fechamentoBean.somaCusto(orc.idOrcamento)}" update="custo,total"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Valor da O.S."/>
+                            <p:inputText id="total" value="#{fechamentoBean.fechamentoOs.idOrcamento.vlrTotal}" readonly="true" />
+                            <p:outputLabel value="Total Custo" />
+                            <p:inputText id="custo" value="#{fechamentoBean.sumCusto}" readonly="true" />
+                        </p:panelGrid>
+                   <p:commandButton action="#{fechamentoBean.save()}" ajax="true" update="fechamentoTable"/>
+                    </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </ui:define>
+</ui:composition>

@@ -52,53 +52,77 @@ public class Fornecedor implements Serializable {
     @Basic(optional = false)
     @Column(name = "idFornecedor")
     private Long idFornecedor;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "bairro")
     private String bairro;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "cep")
     private String cep;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "cidade")
     private String cidade;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "cnpjCpf")
     private String cnpjCpf;
+    
     @Column(name = "inativo")
     private Boolean inativo;
+    
     @Size(max = 255)
     @Column(name = "inscricaoEstadual")
     private String inscricaoEstadual;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "logradouro")
     private String logradouro;
+    
     @Size(max = 255)
     @Column(name = "nomeFantasia")
     private String nomeFantasia;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "num")
-    private int num;
+    private Integer num;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "razaoSocial")
     private String razaoSocial;
+    
     @Size(max = 255)
     @Column(name = "site")
     private String site;
+    
+    @Size(max = 2)
+    @Column(name = "uf")
+    private String uf;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFornecedor")
     private List<Despesas> despesasList;
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
 
     public Fornecedor() {
     }
@@ -190,11 +214,11 @@ public class Fornecedor implements Serializable {
         this.nomeFantasia = nomeFantasia;
     }
 
-    public int getNum() {
+    public Integer getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(Integer num) {
         this.num = num;
     }
 

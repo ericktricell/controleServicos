@@ -49,31 +49,46 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "idCliente")
     private Long idCliente;
+    
     @Size(max = 50)
     @Column(name = "bairro")
     private String bairro;
+    
     @Size(max = 10)
     @Column(name = "cep")
     private String cep;
     @Size(max = 50)
     @Column(name = "cidade")
     private String cidade;
+    
     @Size(max = 80)
     @Column(name = "logradouro")
     private String logradouro;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "nome")
     private String nome;
+    
     @Column(name = "num")
     private Integer num;
+    
     @Size(max = 20)
     @Column(name = "telefone")
     private String telefone;
+    
+    @Size(max = 20)
+    @Column(name = "cpf")
+    private String cpf;
+    
+    @Column(name = "email")
+    private String email;
+    
     @Size(max = 2)
     @Column(name = "uf")
     private String uf;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
     private List<Orcamento> orcamentoList;
 
@@ -87,6 +102,22 @@ public class Cliente implements Serializable {
     public Cliente(Long idCliente, String nome) {
         this.idCliente = idCliente;
         this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getIdCliente() {

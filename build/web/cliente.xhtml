@@ -44,8 +44,12 @@
                         <p:panelGrid columns="2" styleClass="semBorda">
                             <p:outputLabel value="Nome:" for="nome" />
                             <p:inputText id="nome" value="#{clienteBean.cliente.nome}" title="Nome" required="true" requiredMessage="The Nome field is required."/>
+                            <p:outputLabel value="Cpf:" for="cpf" />
+                            <p:inputText id="cpf" value="#{clienteBean.cliente.cpf}" />
                             <p:outputLabel value="Telefone:" for="telefone" />
                             <p:inputText id="telefone" value="#{clienteBean.cliente.telefone}" title="Telefone" />
+                            <p:outputLabel value="Email:" for="email" />
+                            <p:inputText id="email" value="#{clienteBean.cliente.email}" />
                             <p:outputLabel value="Logradouro:" for="logradouro" />
                             <p:inputText id="logradouro" value="#{clienteBean.cliente.logradouro}" title="Logradouro" />
                             <p:outputLabel value="Num:" for="num" />
@@ -57,7 +61,10 @@
                             <p:outputLabel value="Cep:" for="cep" />
                             <p:inputText id="cep" value="#{clienteBean.cliente.cep}" title="Cep" />
                             <p:outputLabel value="Uf:" for="uf" />
-                            <p:inputText id="uf" value="#{clienteBean.cliente.uf}" title="Uf" />
+                            <p:selectOneMenu id="uf" value="#{clienteBean.cliente.uf}" title="Uf"
+                                             filter="true" filterMatchMode="startsWith" effect="fade">
+                                <f:selectItems value="#{estadosServ.lsEstados}" var="uf" itemLabel="#{uf.descricao}" itemValue="#{uf.valor}"/>
+                            </p:selectOneMenu>
                         </p:panelGrid>
                     <p:commandButton action="#{clienteBean.save()}" value="Salvar" ajax="true" update="lista"/>
                     </h:form>

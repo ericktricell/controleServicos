@@ -20,5 +20,6 @@
     <mapping class="com.tricell.model.Cliente"/>
     <mapping class="com.tricell.model.Centrocusto"/>
     <mapping class="com.tricell.model.FechamentoOs"/>
+    <mapping class="com.tricell.model.Designacao"/>
   </session-factory>
 </hibernate-configuration>

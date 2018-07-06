@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{loginBean.verificaUser()}"/>
+            <f:viewAction action="#{designacaoBean.getList()}"/>
+        </f:metadata>
+        <p:layout>
+            <p:layoutUnit position="west" resizable="false" size="600">
+                <h:form id="designTable">
+                        <p:dataTable value="#{designacaoBean.lsDesignacao}" var="item">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="O.S."/>
+                                </f:facet>
+                                <h:outputText value="#{item.idOrcamento.idOrcamento}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Data Inicio"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dataInicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Responsável"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idUsuario.nome}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <h:form>
+                    <p:panelGrid columns="2" styleClass="semBorda">
+                            <p:outputLabel value="O.S.:" for="idOrcamento" />
+                            <p:selectOneMenu id="idOrcamento" value="#{designacaoBean.designacao.idOrcamento}" converter="OrcamentoConverter" required="true" requiredMessage="The IdOrcamento field is required."
+                                             filter="true" filterMatchMode="startsWith" effect="fade">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                                <f:selectItems value="#{designacaoBean.lsOrcamento}" var="os" itemLabel="#{os.idOrcamento} - #{os.idCliente.nome}" itemValue="#{os}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Responsável:" for="idUsuario" />
+                            <p:selectOneMenu id="idUsuario" value="#{designacaoBean.designacao.idUsuario}" converter="UsuarioConverter" required="true" requiredMessage="The IdUsuario field is required."
+                                             filter="true" filterMatchMode="startsWith" effect="fade">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                                <f:selectItems value="#{designacaoBean.lsUsuario}" var="user" itemLabel="#{user.nome}" itemValue="#{user}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Data Inicio:" for="dataInicio" />
+                            <p:calendar id="dataInicio" locale="pt" value="#{designacaoBean.designacao.dataInicio}" title="DataInicio" showOn="button" />  
+                        </p:panelGrid>
+                    <p:commandButton action="#{designacaoBean.save()}" value="Salvar" ajax="true" update="designTable" />
+                    </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </ui:define>
+</ui:composition>

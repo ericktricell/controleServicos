@@ -75,6 +75,11 @@
                             <p:inputText id="cidade" value="#{fornecedorBean.fornecedor.cidade}" title="Cidade" required="true" requiredMessage="The Cidade field is required."/>
                             <p:outputLabel value="Cep:" for="cep" />
                             <p:inputText id="cep" value="#{fornecedorBean.fornecedor.cep}" title="Cep" required="true" requiredMessage="The Cep field is required."/>
+                            <p:outputLabel value="Uf:" for="uf"/>
+                            <p:selectOneMenu id="uf" value="#{fornecedorBean.fornecedor.uf}" filter="true" filterMatchMode="startsWith" effect="fade">
+                                <f:selectItem itemLabel="Selecione" itemValue=""/>
+                                <f:selectItems value="#{estadosServ.lsEstados}" var="uf" itemLabel="#{uf.descricao}" itemValue="#{uf.valor}"/>
+                            </p:selectOneMenu>
                             <p:outputLabel value="Inativo:" for="inativo" />
                             <p:selectBooleanCheckbox id="inativo" value="#{fornecedorBean.fornecedor.inativo}"/>
                         </p:panelGrid>

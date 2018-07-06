@@ -85,9 +85,21 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Orcamento> orcamentoList;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private List<Designacao> designacaoList;
+
+    public List<Designacao> getDesignacaoList() {
+        return designacaoList;
+    }
+
+    public void setDesignacaoList(List<Designacao> designacaoList) {
+        this.designacaoList = designacaoList;
+    }
+    
     public List<FechamentoOs> getFechamentoOsList() {
         return fechamentoOsList;
     }
+    
 
     public void setFechamentoOsList(List<FechamentoOs> fechamentoOsList) {
         this.fechamentoOsList = fechamentoOsList;

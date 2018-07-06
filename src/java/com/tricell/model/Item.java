@@ -46,27 +46,37 @@ public class Item implements Serializable {
     @Basic(optional = false)
     @Column(name = "idItem")
     private Long idItem;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
     @Column(name = "discriminacao")
     private String discriminacao;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "tipo")
     private String tipo;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "un")
     private String un;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "vlrUnit")
-    private double vlrUnit;
+    private Double vlrUnit;
+    
+    @Basic(optional = true)
+    @Column(name = "vlrCusto")
+    private Double vlrCusto;
+    
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "idItem")
     private Despesas despesas;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
     private List<Itensorc> itensorcList;
 
@@ -127,6 +137,14 @@ public class Item implements Serializable {
         this.itensorcList = itensorcList;
     }
 
+    public Double getVlrCusto() {
+        return vlrCusto;
+    }
+
+    public void setVlrCusto(Double vlrCusto) {
+        this.vlrCusto = vlrCusto;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -152,11 +170,11 @@ public class Item implements Serializable {
         return "com.tricell.model.Item[ idItem=" + idItem + " ]";
     }
 
-    public double getVlrUnit() {
+    public Double getVlrUnit() {
         return vlrUnit;
     }
 
-    public void setVlrUnit(double vlrUnit) {
+    public void setVlrUnit(Double vlrUnit) {
         this.vlrUnit = vlrUnit;
     }
 

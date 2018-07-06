@@ -41,19 +41,24 @@ public class Despesas implements Serializable {
     @Basic(optional = false)
     @Column(name = "idDespesa")
     private Long idDespesa;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "quantidade")
     private Double quantidade;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor")
     private double valor;
+    
     @JoinColumn(name = "idFornecedor", referencedColumnName = "idFornecedor")
     @ManyToOne(optional = false)
     private Fornecedor idFornecedor;
+    
     @JoinColumn(name = "idOrcamento", referencedColumnName = "idOrcamento")
     @ManyToOne(optional = false)
     private Orcamento idOrcamento;
+    
     @JoinColumn(name = "idItem", referencedColumnName = "idItem")
     @OneToOne(optional = false)
     private Item idItem;

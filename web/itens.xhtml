@@ -14,7 +14,7 @@
         <p:layout>
             <p:layoutUnit position="west" resizable="false" size="650">
                 <h:form id="lista">
-                        <p:dataTable value="#{itemBean.lsItens}" var="item" selectionMode="single"
+                    <p:dataTable value="#{itemBean.lsItens}" var="item" selectionMode="single"
                                  selection="#{itemBean.itemS}" rowKey="#{item.idItem}" emptyMessage="Não há itens registrados">
                         <f:facet name="header">
                             <p:outputPanel>
@@ -44,7 +44,13 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="Vlr Unit."/>
+                                <h:outputText value="Val. Custo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.vlrCusto}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Val. Unit."/>
                             </f:facet>
                             <h:outputText value="#{item.vlrUnit}"/>
                         </p:column>
@@ -54,23 +60,28 @@
 
             <p:layoutUnit position="center">
                 <h:form id="detalhes">
-                        <p:panelGrid columns="2">
-                                <p:outputLabel value="Discriminacao:" for="discriminacao" />
-                            <p:inputText id="discriminacao" value="#{itemBean.itemS.discriminacao}" title="Discriminacao" required="true" requiredMessage="The Discriminacao field is required."/>
-                            <p:outputLabel value="Tipo:" for="tipo" />
-                            <p:selectOneMenu id="tipo" value="#{itemBean.itemS.tipo}" required="true" requiredMessage="The Tipo field is required.">
-                                <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
-                                <f:selectItem itemValue="Serviço" itemLabel="Serviço"/>
-                                <f:selectItem itemValue="Material" itemLabel="Material"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="Un:" for="un" />
-                            <p:inputText id="un" value="#{itemBean.itemS.un}" title="Un" required="true" requiredMessage="The Un field is required."/>
-                            <p:outputLabel value="VlrUnit:" for="vlrUnit" />
-                            <p:inputText id="vlrUnit" class="js-moeda" value="#{itemBean.itemS.vlrUnit}" title="VlrUnit" required="true" requiredMessage="The VlrUnit field is required."/>
-                        </p:panelGrid>
-                        <p:commandButton action="#{itemBean.save()}" value="Salvar" ajax="true" update="lista"/>
-                    </h:form>
-               
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Discriminacao:" for="discriminacao" />
+                        <p:inputText id="discriminacao" value="#{itemBean.itemS.discriminacao}" title="Discriminacao" required="true" requiredMessage="The Discriminacao field is required."/>
+                        <p:outputLabel value="Tipo:" for="tipo" />
+                        <p:selectOneMenu id="tipo" value="#{itemBean.itemS.tipo}" required="true" requiredMessage="The Tipo field is required.">
+                            <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                            <f:selectItem itemValue="Serviço" itemLabel="Serviço"/>
+                            <f:selectItem itemValue="Material" itemLabel="Material"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Un:" for="un" />
+                        <p:selectOneMenu id="un" value="#{itemBean.itemS.un}" title="Un" required="true" requiredMessage="The Un field is required."
+                                         filter="true" filterMatchMode="startsWith" effect="fade">
+                            <f:selectItem itemLabel="-" itemValue="-"/>
+                            <f:selectItems value="#{medidasServ.lsMedidas}" var="med" itemValue="#{med.valor}" itemLabel="#{med.descricao} - #{med.valor}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Val. Custo:" for="vlrCusto" />
+                        <p:inputText id="vlrCusto" value="#{itemBean.itemS.vlrCusto}" required="true" requiredMessage="The VlrUnit field is required."/>
+                        <p:outputLabel value="Val. Unit.:" for="vlrUnit" />
+                        <p:inputText id="vlrUnit" value="#{itemBean.itemS.vlrUnit}" title="VlrUnit" required="true" requiredMessage="The VlrUnit field is required."/>
+                    </p:panelGrid>
+                    <p:commandButton value="Salvar" action="#{itemBean.save()}" ajax="true" update="lista"/>
+                </h:form>
             </p:layoutUnit>
         </p:layout>
     </ui:define>

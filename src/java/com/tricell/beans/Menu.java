@@ -54,4 +54,12 @@ public class Menu implements Serializable{
     public void aprovacao() throws IOException{
         FacesContext.getCurrentInstance().getExternalContext().redirect("aprovacao.jsf");
     }
+    
+    public void designacao() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("designacao.jsf");
+    }
+    
+    public void fechamento() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("fechamento.jsf");
+    }
 }

@@ -73,6 +73,7 @@
                                 <!-- TODO: update below reference to list of available items-->
                                 <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
                                 <f:selectItems value="#{despesaBean.lsItem}" var="it" itemLabel="#{it.discriminacao}" itemValue="#{it}"/>
+                                <p:ajax update="valor"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="Fornecedor:" for="fornecedor" />
                             <p:selectOneMenu id="fornecedor" value="#{despesaBean.despesas.idFornecedor}" converter="FornecedorConverter" required="true" requiredMessage="The Fornecedor field is required."
@@ -82,9 +83,13 @@
                                 <f:selectItems value="#{despesaBean.lsFornecedor}" var="forn" itemLabel="#{forn.nomeFantasia}" itemValue="#{forn}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="Valor:" for="valor" />
-                            <p:inputText id="valor" value="#{despesaBean.despesas.valor}" title="Valor" required="true" requiredMessage="The Valor field is required."/>
+                            <p:inputText id="valor" value="#{despesaBean.despesas.idItem.vlrCusto}" title="Valor" required="true" requiredMessage="The Valor field is required."/>
                             <p:outputLabel value="Quantidade:" for="quantidade" />
-                            <p:inputText id="quantidade" value="#{despesaBean.despesas.quantidade}" title="Quantidade" />
+                            <p:inputText id="quantidade" value="#{despesaBean.despesas.quantidade}" title="Quantidade">
+                                <p:ajax listener="#{despesaBean.calculaTotal()}" update="total"/>
+                            </p:inputText>
+                            <p:outputLabel value="Total" for="total"/>
+                            <p:inputText readonly="true" id="total" value="#{despesaBean.tot}"/>
                         </p:panelGrid>
                     <p:commandButton value="Salvar" action="#{despesaBean.save()}" update="lista"/>
                     </h:form>

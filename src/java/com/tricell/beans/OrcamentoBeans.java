@@ -30,7 +30,7 @@ import javax.faces.bean.SessionScoped;
 public class OrcamentoBeans implements Crud, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     private Orcamento orcamento = new Orcamento();
     private Usuario usuarioLogado = new Usuario();
     private List<Orcamento> lsOrcamento = new ArrayList<>();
@@ -45,27 +45,27 @@ public class OrcamentoBeans implements Crud, Serializable {
     private Double vlrTotal = new Double(0.0);
     private Double vlrTotalOrc = new Double(0.0);
 
-    public void addItem(){
+    public void addItem() {
         itensorc.setIdItem(itensorc.getItem().getIdItem());
         itensorc.setIdOrcamento(orcamento.getIdOrcamento());
         vlrTotalOrc += itensorc.getNum() * itensorc.getItem().getVlrUnit();
         lsItensOrc.add(itensorc);
         itensorc = new Itensorc();
     }
-    
-    
+
     @Override
     public void save() {
         orcamento.setIdEmpresa(empresa);
         orcamento.setIdUsuario(usuarioLogado);
         orcamento.setItensorcList(lsItensOrc);
-        dao.savemerge(orcamento);    
+        orcamento.setVlrTotal(vlrTotalOrc);
+        dao.savemerge(orcamento);
     }
 
     @Override
     public void novo() {
         orcamento = new Orcamento();
-        
+
     }
 
     @Override
@@ -75,7 +75,7 @@ public class OrcamentoBeans implements Crud, Serializable {
 
     @Override
     public void getListFilter() {
-
+        lsOrcamento = controller.getListEntity();
     }
 
     @Override
@@ -83,17 +83,25 @@ public class OrcamentoBeans implements Crud, Serializable {
         for (int i = 0; i < lsOrcamento.size(); i++) {
             if (Objects.equals(lsOrcamento.get(i).getIdOrcamento(), id)) {
                 orcamento = lsOrcamento.get(i);
+                orcamento.setItensorcList(controller.findItOrc(orcamento.getIdOrcamento()));
                 break;
             }
         }
-        return "";
+        return "aprovacao?redirect=true";
     }
 
-    public void calculaTotal(){
+    public void aprov(Orcamento o) {
+        orcamento = o;
+        orcamento.setAprovado(true);
+        dao.savemerge(orcamento);
+        lsOrcamento = controller.getListEntity();
+    }
+
+    public void calculaTotal() {
         vlrTotal = itensorc.getItem().getVlrUnit() * itensorc.getNum();
     }
-    
-    public void getComponentes(){
+
+    public void getComponentes() {
         lsCli = controller.findCliente();
         lsItens = controller.findItens();
         empresa = controller.findEmpresa();

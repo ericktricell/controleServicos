@@ -30,7 +30,9 @@ and open the template in the editor.
                     <p:menuitem value="Resumo" action="#{menu.resumo()}" icon="ui-icon-home"/>
                     <p:submenu label="O.S." icon="ui-icon-document">
                         <p:submenu label="Ordem de Serviço" icon="ui-icon-clipboard">
-                            <p:menuitem value="Despesas" action="#{menu.despesas()}" icon="ui-icon-tag"/>
+                            <p:menuitem value="Despesas" action="#{menu.despesas()}" icon="ui-icon-tag">
+                                <f:setPropertyActionListener value="#{loginBean.user}" target="#{despesaBean.user}"/>
+                            </p:menuitem>
                             <p:separator />
                             <p:menuitem value="Fechamento" url="#" icon="ui-icon-arrowreturnthick-1-s"/>
                         </p:submenu>

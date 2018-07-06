@@ -14,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 
 /**
  *
@@ -73,7 +74,21 @@ public class DaoGeneric<E> implements Serializable{
         List<E> retorno = new ArrayList<>();
         try{
             
-            retorno = sessao.createCriteria(entidade).list();
+            retorno = sessao.createCriteria(entidade).addOrder(Order.desc("idFechamento")).list();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            sessao.close();
+        }
+        return retorno;
+    }
+    
+    public List<E> getListEntity1(Class<E> entidade){
+        Session sessao = HibernateUtil.getSessionfactory().openSession();
+        List<E> retorno = new ArrayList<>();
+        try{
+            
+            retorno = sessao.createCriteria(entidade).addOrder(Order.desc("idFechamento")).list();
         }catch(Exception e){
             e.printStackTrace();
         }finally{

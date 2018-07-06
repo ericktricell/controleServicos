@@ -43,6 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Orcamento.findByNumDoc", query = "SELECT o FROM Orcamento o WHERE o.numDoc = :numDoc")
     , @NamedQuery(name = "Orcamento.findByObs", query = "SELECT o FROM Orcamento o WHERE o.obs = :obs")
     , @NamedQuery(name = "Orcamento.findByPrazoEnt", query = "SELECT o FROM Orcamento o WHERE o.prazoEnt = :prazoEnt")
+    , @NamedQuery(name = "Orcamento.abertos", query = "SELECT o FROM Orcamento o, Designacao d WHERE d.idUsuario = :idUsuario and d.idOrcamento = o.idOrcamento")
     , @NamedQuery(name = "Orcamento.findByVlrTotal", query = "SELECT o FROM Orcamento o WHERE o.vlrTotal = :vlrTotal")})
 public class Orcamento implements Serializable {
 
@@ -74,27 +75,49 @@ public class Orcamento implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "vlrTotal")
     private Double vlrTotal;
-    
+
+    @Column(name = "aprovado")
+    private boolean aprovado;
+
     @JoinColumn(name = "idEmpresa", referencedColumnName = "idEmpresa")
     @ManyToOne(optional = false)
     private Empresa idEmpresa;
-    
+
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
     @ManyToOne(optional = false)
     private Cliente idCliente;
-    
+
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
     @ManyToOne(optional = false)
     private Usuario idUsuario;
-    
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "idOrcamento")
     private FechamentoOs fechamentoOs;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orcamento")
     private List<Itensorc> itensorcList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrcamento")
     private List<Despesas> despesasList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrcamento")
+    private List<Designacao> designacaoList;
+
+    public List<Designacao> getDesignacaoList() {
+        return designacaoList;
+    }
+
+    public void setDesignacaoList(List<Designacao> designacaoList) {
+        this.designacaoList = designacaoList;
+    }
+
+    public boolean isAprovado() {
+        return aprovado;
+    }
+
+    public void setAprovado(boolean aprovado) {
+        this.aprovado = aprovado;
+    }
 
     public FechamentoOs getFechamentoOs() {
         return fechamentoOs;
@@ -103,7 +126,7 @@ public class Orcamento implements Serializable {
     public void setFechamentoOs(FechamentoOs fechamentoOs) {
         this.fechamentoOs = fechamentoOs;
     }
-    
+
     public Orcamento() {
     }
 
@@ -241,5 +264,5 @@ public class Orcamento implements Serializable {
     public void setCentrocustoList(List<Centrocusto> centrocustoList) {
         this.centrocustoList = centrocustoList;
     }
-    
+
 }

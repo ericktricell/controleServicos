@@ -5,8 +5,8 @@
  */
 package com.tricell.beans;
 
+import com.tricell.beans.geral.EstadosServ;
 import com.tricell.interfac.crud.Crud;
-import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Cliente;
 import com.tricell.repository.DaoGeneric;
 import java.io.Serializable;
@@ -27,7 +27,7 @@ public class ClienteBean implements Crud, Serializable{
     private Cliente cliente = new Cliente();
     private List<Cliente> lsCliente = new ArrayList<>();
     private DaoGeneric<Cliente> dao = new DaoGeneric<>();
-
+   
     @Override
     public void save(){
         dao.savemerge(cliente);

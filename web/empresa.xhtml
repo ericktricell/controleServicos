@@ -11,37 +11,34 @@
             <f:viewAction action="#{empresaBean.empresaSalva()}"/>
             <f:viewAction action="#{loginBean.verificaUser()}"/>
         </f:metadata>
-        <p:layout>
-            <p:layoutUnit position="west" resizable="false" size="650">
-            </p:layoutUnit>
-            <p:layoutUnit position="center">
-                <h:form>
-                    <p:panelGrid columns="2" styleClass="semBorda">
-                        <h:outputLabel value="NomeFantasia:" for="nomeFantasia" />
-                        <p:inputText id="nomeFantasia" value="#{empresaBean.empresa.nomeFantasia}" title="NomeFantasia" />
-                        <h:outputLabel value="RazaoSocial:" for="razaoSocial" />
-                        <p:inputText id="razaoSocial" value="#{empresaBean.empresa.razaoSocial}" title="RazaoSocial" />
-                        <h:outputLabel value="Cnpj:" for="cnpj" />
-                        <p:inputText id="cnpj" value="#{empresaBean.empresa.cnpj}" title="Cnpj" />
-                        <h:outputLabel value="Telefone:" for="telefone" />
-                        <p:inputText id="telefone" value="#{empresaBean.empresa.telefone}" title="Telefone" />
-                        <h:outputLabel value="Logradouro:" for="logradouro" />
-                        <p:inputText id="logradouro" value="#{empresaBean.empresa.logradouro}" title="Logradouro" />
-                        <h:outputLabel value="Num:" for="num" />
-                        <p:inputText id="num" value="#{empresaBean.empresa.num}" title="Num" />
-                        <h:outputLabel value="Bairro:" for="bairro" />
-                        <p:inputText id="bairro" value="#{empresaBean.empresa.bairro}" title="Bairro" />
-                        <h:outputLabel value="Cidade:" for="cidade" />
-                        <p:inputText id="cidade" value="#{empresaBean.empresa.cidade}" title="Cidade" />
-                        <h:outputLabel value="Cep:" for="cep" />
-                        <p:inputText id="cep" value="#{empresaBean.empresa.cep}" title="Cep" />
-                        <h:outputLabel value="Uf:" for="uf" />
-                        <p:inputText id="uf" value="#{empresaBean.empresa.uf}" title="Uf" />
-                    </p:panelGrid>
-                    <p:commandButton value="Salvar" action="#{empresaBean.salvar()}"/>
-                </h:form>
-            </p:layoutUnit>
-        </p:layout>
+
+        <h:form style="position: relative; left: 30%">
+            <p:panelGrid columns="2" styleClass="semBorda">
+                <h:outputLabel value="NomeFantasia:" for="nomeFantasia" />
+                <p:inputText id="nomeFantasia" value="#{empresaBean.empresa.nomeFantasia}" title="NomeFantasia" />
+                <h:outputLabel value="RazaoSocial:" for="razaoSocial" />
+                <p:inputText id="razaoSocial" value="#{empresaBean.empresa.razaoSocial}" title="RazaoSocial" />
+                <h:outputLabel value="Cnpj:" for="cnpj" />
+                <p:inputText id="cnpj" value="#{empresaBean.empresa.cnpj}" title="Cnpj" />
+                <h:outputLabel value="Telefone:" for="telefone" />
+                <p:inputText id="telefone" value="#{empresaBean.empresa.telefone}" title="Telefone" />
+                <h:outputLabel value="Logradouro:" for="logradouro" />
+                <p:inputText id="logradouro" value="#{empresaBean.empresa.logradouro}" title="Logradouro" />
+                <h:outputLabel value="Num:" for="num" />
+                <p:inputText id="num" value="#{empresaBean.empresa.num}" title="Num" />
+                <h:outputLabel value="Bairro:" for="bairro" />
+                <p:inputText id="bairro" value="#{empresaBean.empresa.bairro}" title="Bairro" />
+                <h:outputLabel value="Cidade:" for="cidade" />
+                <p:inputText id="cidade" value="#{empresaBean.empresa.cidade}" title="Cidade" />
+                <h:outputLabel value="Cep:" for="cep" />
+                <p:inputText id="cep" value="#{empresaBean.empresa.cep}" title="Cep" />
+                <h:outputLabel value="Uf:" for="uf" />
+                <p:selectOneMenu id="uf" value="#{empresaBean.empresa.uf}" title="Uf" filter="true" filterMatchMode="startsWith" effect="fade">
+                    <f:selectItems value="#{estadosServ.lsEstados}" var="uf" itemLabel="#{uf.descricao}" itemValue="#{uf.valor}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:commandButton value="Salvar" action="#{empresaBean.salvar()}"/>
+        </h:form>
     </ui:define>
 
 </ui:composition>

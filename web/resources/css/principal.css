@@ -13,6 +13,10 @@ nav{
     background: activeborder;
 }
 
+#aprovLayout{
+    height: 230px;
+}
+
 #faixa{
     position: absolute;
     left: 30%;

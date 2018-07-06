@@ -6,10 +6,8 @@
 package com.tricell.repository;
 
 import com.tricell.jpautil.HibernateUtil;
-import com.tricell.jpautil.JPAUtil;
 import com.tricell.model.Usuario;
 import java.io.Serializable;
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import org.hibernate.Query;
 import org.hibernate.Session;
