@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout-base.xhtml">
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{loginBean.verificaUser()}"/>
+            <f:viewAction action="#{orcamentoBeans.getListFilter()}"/>
+        </f:metadata>
+        <h:form id="aprovTable">
+                    <p:dataTable value="#{orcamentoBeans.lsOrcamento}" var="item" selectionMode="single"
+                                 selection="#{orcamentoBeans.orcamento}" rowKey="#{item.idOrcamento}" emptyMessage="Não há itens com aprovação pendente">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Ordens de Serviço para aprovação" />
+                            </p:outputPanel>
+                        </f:facet>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="NumDoc"/>
+                            </f:facet>
+                            <h:outputText value="#{item.numDoc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cliente"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCliente.nome}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="VlrTotal"/>
+                            </f:facet>
+                            <h:outputText value="#{item.vlrTotal}">
+                                <f:convertNumber currencySymbol="R$" type="currency"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="CondPag"/>
+                            </f:facet>
+                            <h:outputText value="#{item.condPag}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data"/>
+                            </f:facet>
+                            <h:outputText value="#{item.data}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="PrazoEnt"/>
+                            </f:facet>
+                            <h:outputText value="#{item.prazoEnt}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Aprov."/>
+                            </f:facet>
+                            <p:commandButton action="#{orcamentoBeans.aprov(item)}" icon="ui-icon-check" ajax="true" update="aprovTable"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            
+    </ui:define>
+</ui:composition>
