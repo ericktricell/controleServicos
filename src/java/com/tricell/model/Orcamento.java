@@ -91,9 +91,6 @@ public class Orcamento implements Serializable {
     @ManyToOne(optional = false)
     private Usuario idUsuario;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idOrcamento")
-    private FechamentoOs fechamentoOs;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orcamento")
     private List<Itensorc> itensorcList;
 
@@ -117,14 +114,6 @@ public class Orcamento implements Serializable {
 
     public void setAprovado(boolean aprovado) {
         this.aprovado = aprovado;
-    }
-
-    public FechamentoOs getFechamentoOs() {
-        return fechamentoOs;
-    }
-
-    public void setFechamentoOs(FechamentoOs fechamentoOs) {
-        this.fechamentoOs = fechamentoOs;
     }
 
     public Orcamento() {

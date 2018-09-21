@@ -80,9 +80,6 @@ public class Usuario implements Serializable {
     private String tipoUser;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private List<FechamentoOs> fechamentoOsList;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Orcamento> orcamentoList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
@@ -96,15 +93,6 @@ public class Usuario implements Serializable {
         this.designacaoList = designacaoList;
     }
     
-    public List<FechamentoOs> getFechamentoOsList() {
-        return fechamentoOsList;
-    }
-    
-
-    public void setFechamentoOsList(List<FechamentoOs> fechamentoOsList) {
-        this.fechamentoOsList = fechamentoOsList;
-    }
-
     public Usuario() {
     }
 
@@ -204,9 +192,4 @@ public class Usuario implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.tricell.model.Usuario[ idUsuario=" + idUsuario + " ]";
-    }
-    
 }
